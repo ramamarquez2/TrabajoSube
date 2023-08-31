@@ -1,14 +1,18 @@
 <?php
 namespace TrabajoSube;
 class Colectivo{
-    protected $linea;
-    
+    public int $linea; //protected
+
     public function __construct($linea){
         $this->linea = $linea;
     }
-    
-    //    Funcion de ejemplo para test
-    public function getLinea(){
-        return $this->linea;
+
+    public function pagarCon($tarjeta){
+        if($tarjeta->saldo >= 120){
+            $tarjeta->saldo -= 120;
+            $boleto = new Boleto($this->linea, $tarjeta->saldo);
+            $boleto->ver();
+        }
     }
+
 }
