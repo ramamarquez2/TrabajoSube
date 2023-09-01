@@ -11,7 +11,7 @@ class Colectivo{
         if($tarjeta->saldo >= 120){
             $tarjeta->saldo -= 120;
             $boleto = new Boleto($this->linea, $tarjeta->propietario, $tarjeta->saldo);
-            // $tarjeta->addBoleto($boleto) + en tarjeta añadir array boleto
+            $tarjeta->addBoleto($boleto);
         }
     }
     // tests functions
