@@ -1,7 +1,7 @@
 <?php
 namespace TrabajoSube;
 class Colectivo{
-    public int $linea; //protected
+    protected $linea; //protected
 
     public function __construct($linea){
         $this->linea = $linea;
@@ -14,5 +14,9 @@ class Colectivo{
             $boleto->ver();
         }
     }
-
+    // tests functions
+    public function getLinea(){
+        return $this->linea;
+    }
 }
+?>
