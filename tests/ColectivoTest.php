@@ -15,9 +15,9 @@ class ColectivoTest extends TestCase{
         $cole = new Colectivo(103);
         $tar = new Tarjeta("Owner", 150);
         $tar->verSaldo();
-        $cole->pagarCon($tar);  //pago exitoso
+        $this->assertTrue($cole->pagarCon($tar));  //pago exitoso
         $this->assertEquals($tar->verSaldo(), 30);
-        $cole->pagarCon($tar); //error saldo < 120
+        $this->assertFalse($cole->pagarCon($tar)); //error saldo < 120
         $this->assertEquals($tar->verSaldo(), 30);
     }
 }

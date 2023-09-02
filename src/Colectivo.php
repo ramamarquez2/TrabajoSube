@@ -12,7 +12,9 @@ class Colectivo{
             $tarjeta->saldo -= 120;
             $boleto = new Boleto($this->linea, $tarjeta->propietario, $tarjeta->saldo);
             $tarjeta->addBoleto($boleto);
+            return True;
         }
+        return False;
     }
     // tests functions
     public function getLinea(){
