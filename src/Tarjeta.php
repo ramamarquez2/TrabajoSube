@@ -27,7 +27,7 @@ class Tarjeta{
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
             echo "Usted le cargo " . $numSaldo . ".\n";
             if($numSaldo + $this->saldo >= 0){
-                $this->saldo = $this->saldo + $numSaldo - $this->deuda;
+                $this->saldo = $numSaldo - $this->deuda;
                 echo "Se le desconto " . $this->deuda . ".\n";
                 if($this->saldo >= 0){
                     $this->deuda = 0;
