@@ -4,11 +4,14 @@ class Tarjeta{
     public string $propietario;
     public float $saldo;
     public float $deuda;
+    public int $countPlus;
     public array $ifSaldo = [150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000];
     public array $boletos = []; 
 
     public function __construct($name, $s=0){
         $this->propietario = $name;
+        $this->countPlus = 0;
+
         if(!($s > 6600 || $s < (-211.84))){
             $this->saldo = $s;
         }
@@ -26,15 +29,18 @@ class Tarjeta{
     public function cargarSaldo($numSaldo){
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
             echo "Usted le cargo " . $numSaldo . ".\n";
+            if($this->countPlus>0){
+                if($numSaldo == 150 || $numSaldo == 200){
+                    $this->countPlus-= 1;
+                }
+                else{
+                    $this->countPlus = 0;
+                }
+            }
             if($numSaldo + $this->saldo >= 0){
                 $this->saldo = $numSaldo - $this->deuda;
                 echo "Se le desconto " . $this->deuda . ".\n";
-                if($this->saldo >= 0){
-                    $this->deuda = 0;
-                }
-                else{
-                    $this->deuda = $this->saldo * (-1);
-                }
+                $this->deuda = 0;
             }
             else{
                 $this->saldo += $numSaldo;
