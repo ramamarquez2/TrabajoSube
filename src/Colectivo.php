@@ -1,7 +1,7 @@
 <?php
 namespace TrabajoSube;
 class Colectivo{
-    protected $linea; //protected
+    protected int $linea; //protected
 
     public function __construct($linea){
         $this->linea = $linea;

@@ -3,7 +3,7 @@ namespace TrabajoSube;
 class Boleto{
     private string $propName;
     private int $numCole;
-    private int $saldoTarjeta;
+    private float $saldoTarjeta;
 
     public function __construct($num, $name,$saldo){
         $this->numCole = $num;
