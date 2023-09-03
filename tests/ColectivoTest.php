@@ -13,11 +13,22 @@ class ColectivoTest extends TestCase{
     //test pagarCon
     public function testPagarcon(){
         $cole = new Colectivo(103);
-        $tar = new Tarjeta("Owner", 150);
+        $tar = new Tarjeta("Owner", -20);
         $tar->verSaldo();
         $this->assertTrue($cole->pagarCon($tar));  //pago exitoso
-        $this->assertEquals($tar->verSaldo(), 30);
-        $this->assertFalse($cole->pagarCon($tar)); //error saldo < 120
-        $this->assertEquals($tar->verSaldo(), 30);
+        $this->assertEquals($tar->verSaldo(), (-140));
+        $this->assertFalse($cole->pagarCon($tar)); //error (saldo - 120) < -211.84
+        $this->assertEquals($tar->verSaldo(), (-140));
+    }
+
+    public function testViajesplus(){
+        $cole = new Colectivo(103);
+        $tar = new Tarjeta("DebtorOwner", 110);
+        $this->assertTrue($cole->pagarCon($tar)); //110 - 120 = -10
+        $this->assertTrue($cole->pagarCon($tar)); // -10 - 120 = -130
+        $this->assertFalse($cole->pagarCon($tar));
+
+        $tar->cargarSaldo(150);
+        $this->assertEquals($tar->verSaldo(), (20));
     }
 }

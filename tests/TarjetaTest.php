@@ -20,5 +20,9 @@ class TarjetaTest extends TestCase{
         $this->assertEquals($tarjeta->verSaldo(), 4000); //carga valida
         $tarjeta->cargarSaldo(3000); //sobrepasa 6600
         $this->assertEquals($tarjeta->verSaldo(), 4000);
+
+        $debeTar = new Tarjeta("Deudor", -100);
+        $debeTar->cargarSaldo(150);
+        $this->assertEquals($debeTar->verSaldo(), 50);
     }
 }
