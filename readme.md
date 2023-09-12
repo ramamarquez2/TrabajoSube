@@ -70,7 +70,7 @@ IMPORTANTE: Como punto de control, alguna de estas dos funcionalidades: "Viaje p
 - Escribir un test que valide que una tarjeta de FranquiciaCompleta siempre puede pagar un boleto.
 - Escribir un test que valide que el monto del boleto pagado con medio boleto es siempre la mitad del normal.
 
-## Iteracion 3 ()
+## Iteracion 3
 Al igual que la iteración anterior, se pide mantener la mecánica de trabajo para ir añadiendo las nuevas funcionalidades y/o modificaciones (issue, una rama específica para cada tarea y finalmente el mergeo cuando todo funcione correctamente..., etc.)
 En esta iteración daremos una introducción a la manipulación de fechas y horarios. Éstos serán necesarios en esta oportunidad para realizar las modificaciones pedidas. Consultar este video para conocer más sobre el manejo de fechas y horas en PHP: https://www.youtube.com/watch?v=dVRl1kqxdwY
 
