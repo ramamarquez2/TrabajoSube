@@ -4,13 +4,14 @@ class Tarjeta{
     public string $propietario;
     public float $saldo;
     public float $deuda;
+    public float $precioBoleto;
     public array $ifSaldo = [150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000];
     public array $boletos = []; 
 
-    public function __construct($name, $s=0){
+    public function __construct($name, $s=0, $precioBoleto = 120){
         $this->propietario = $name;
 
-        if(!($s > 6600 || $s < (-211.84))){
+        if($s <= 6600 || $s >= (-211.84)){
             $this->saldo = $s;
         }
         else {
@@ -51,4 +52,6 @@ class Tarjeta{
         return $this->saldo;
     }
 }
+
+
 ?>
