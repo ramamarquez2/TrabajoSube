@@ -11,7 +11,7 @@ class Colectivo{
         $this->descuento = 1;
     }
 
-    public function pagarCon($tarjeta){
+    public function pagarCon(Tarjeta $tarjeta){
 
         if(get_class($tarjeta) == "FranquiciaCompleta" || get_class($tarjeta) == "MedioBoleto" ){
             if($tarjeta->beneficioRestantes > 0){
@@ -28,7 +28,7 @@ class Colectivo{
             $descuento = 1;
         }
 
-        if(($tarjeta->saldo ((-120)*$descuento)) >= (-211.84)){
+        if($tarjeta->saldo - (120*$descuento) >= (-211.84)){
             $tarjeta->saldo -= (120*$descuento);
             if($tarjeta->saldo < 0){
                 $tarjeta->deuda = $tarjeta->saldo * (-1);
