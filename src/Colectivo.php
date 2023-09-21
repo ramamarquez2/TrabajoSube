@@ -9,7 +9,7 @@ class Colectivo{
         $this->descuento = 1;
     }
 
-    public function pagarCon($tarjeta){
+    public function pagarCon(Tarjeta $tarjeta){
 
         if($tarjeta instanceof FranquiciaCompleta || $tarjeta instanceof MedioBoleto)
         {
