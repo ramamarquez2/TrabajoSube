@@ -43,7 +43,7 @@ class Tarjeta{
 
     }
 
-    public function addBoleto($bol){
+    public function addBoleto(Boleto $bol){
         array_unshift($this->boletos, $bol);
     }
     public function verSaldo() {
