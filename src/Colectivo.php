@@ -6,21 +6,23 @@ class Colectivo{
 
     public function __construct($linea){
         $this->linea = $linea;
-        $this->$descuento = 1;
+        $this->descuento = 1;
     }
 
     public function pagarCon($tarjeta){
 
-        if(get_class($tarjeta) == "FranquiciaCompleta" || get_class($tarjeta) == "MedioBoleto" )
+        if($tarjeta instanceof FranquiciaCompleta || $tarjeta instanceof MedioBoleto)
         {
-            if($tarjeta->$beneficioRestantes > 0)
+            if($tarjeta->beneficiosRestantes > 0)
             {
-                $tarjeta->$beneficioRestantes -= 1;
-                $this->descuento = $tarjeta->$descuentoFraccional;
+                $tarjeta->beneficiosRestantes -= 1;
+                $this->descuento = $tarjeta->descuentoFraccional;
             }
         }
 
         if(($tarjeta->saldo - (120 * $this->descuento)) >= (-211.84)){
+            echo "saldo " . $tarjeta->saldo;
+            echo "descuento " . $this->descuento;
             $tarjeta->saldo -= (120 * $this->descuento);
             $this->descuento = 1;
             if($tarjeta->saldo < 0){
