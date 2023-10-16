@@ -21,9 +21,8 @@ class Colectivo{
         }
 
         if($tarjeta->saldo - (120*$this->descuento) >= (-211.84)){
+            echo "\nsaldo previo al pago " . $tarjeta->saldo;    
             $tarjeta->saldo -= (120*$this->descuento);
-            
-            echo "\nsaldo previo al pago " . $tarjeta->saldo;
             echo "\ndescuento a aplicar en el pago " . $this->descuento;
 
             if($tarjeta->saldo < 0){
