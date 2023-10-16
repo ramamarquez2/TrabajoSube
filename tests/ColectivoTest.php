@@ -31,6 +31,7 @@ class ColectivoTest extends TestCase{
         $tar->cargarSaldo(150);
         $this->assertEquals($tar->verSaldo(), (20));
     }
+
 /*
 Escribir un test que valide que una tarjeta de
 FranquiciaCompleta siempre puede pagar un boleto.
@@ -41,6 +42,7 @@ con medio boleto es siempre la mitad del normal.
     public function testFranquicia(){
         $cole = new Colectivo(103);
         $tar = new FranquiciaCompleta("DebtorOwner", -211.84);
+
         $this->assertTrue($cole->pagarCon($tar)); //boleto 1
         $this->assertTrue($cole->pagarCon($tar)); //boleto 2
 
