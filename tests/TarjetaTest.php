@@ -12,7 +12,7 @@ class TarjetaTest extends TestCase{
         $tarjeta1 = new Tarjeta("Owner"); 
         $tarjeta1->verSaldo();
 
-        $deudaTarj = new Tarjeta("StrangeOwner", -120); //tarjeta cargada con saldo negativo
+        $deudaTarj = new Tarjeta("StrangeOwner", -160); //tarjeta cargada con saldo negativo
         $deudaTarj->verSaldo();
 
         $badTarjeta1 = new Tarjeta("PlentyOwner", 6600); //tarjeta que excede el saldo maximo
@@ -43,12 +43,12 @@ class TarjetaTest extends TestCase{
         $this->assertEquals($tarjeta1->verSaldo(), 4000); //carga invalida
 
         echo "\n\n Se carga saldo a tarjeta con deuda (tarjeta -120)\n"; 
-        $deudaTarj->cargarSaldo(100); //carga menor a deuda
-        $this->assertEquals($deudaTarj->verSaldo(), -20); //devuelve saldo negativo
-        $this->assertEquals($deudaTarj->verDeuda(), 20); //devuelve deuda 
+        $deudaTarj->cargarSaldo(150); //carga menor a deuda
+        $this->assertEquals($deudaTarj->verSaldo(), -10); //devuelve saldo negativo
+        $this->assertEquals($deudaTarj->verDeuda(), 10); //devuelve deuda 
 
-        $deudaTarj->cargarSaldo(100); //carga mayor a deuda
-        $this->assertEquals($deudaTarj->verSaldo(), 80); //devuelve saldo positivo
+        $deudaTarj->cargarSaldo(150); //carga mayor a deuda
+        $this->assertEquals($deudaTarj->verSaldo(), 140); //devuelve saldo positivo
         $this->assertEquals($deudaTarj->verDeuda(), 0); //devuelve deuda 0
 
     }
