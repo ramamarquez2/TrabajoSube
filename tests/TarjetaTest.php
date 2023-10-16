@@ -42,7 +42,7 @@ class TarjetaTest extends TestCase{
         $tarjeta1->cargarSaldo(3000); // carga que sobrepasa 6600
         $this->assertEquals($tarjeta1->verSaldo(), 4000); //carga invalida
 
-        echo "\n\n Se carga saldo a tarjeta con dedua\n"; 
+        echo "\n\n Se carga saldo a tarjeta con deuda (tarjeta -120)\n"; 
         $deudaTarj->cargarSaldo(100); //carga menor a deuda
         $this->assertEquals($deudaTarj->verSaldo(), -20); //devuelve saldo negativo
         $this->assertEquals($deudaTarj->verDeuda(), 20); //devuelve deuda 

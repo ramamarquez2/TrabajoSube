@@ -28,17 +28,7 @@ class Tarjeta{
             $this->deuda = $this->saldo * (-1);
         }*/
     }
-    
-    Se carga 200 de saldo
 
-    Usted le cargo 200.
-    El saldo final es positivo 100.
-    Saldo a cargar 100.
-    
-    Se le desconto 100.
-    
-    Tu saldo actual es 0 .
-    F
 
     public function cargarSaldo($numSaldo){
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
@@ -48,7 +38,7 @@ class Tarjeta{
                 echo "El saldo final es positivo " . $numSaldo + $this->saldo . ".\n";
                 echo "Saldo a cargar " . ($numSaldo-$this->deuda) . ".\n";
 
-                $this->saldo += $numSaldo
+                $this->saldo += $numSaldo;
                 echo "\nSe le desconto " . $this->deuda . ".\n";
                 $this->deuda = 0;
             }
