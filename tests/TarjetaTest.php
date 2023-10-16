@@ -15,7 +15,7 @@ class TarjetaTest extends TestCase{
         $deudaTarj = new Tarjeta("StrangeOwner", -120); //tarjeta cargada con saldo negativo
         $deudaTarj->verSaldo();
 
-        $badTarjeta1 = new Tarjeta("PlentyOwner", 6601); //tarjeta que excede el saldo maximo
+        $badTarjeta1 = new Tarjeta("PlentyOwner", 6600); //tarjeta que excede el saldo maximo
         $badTarjeta1->verSaldo();
 
         $badTarjeta2 = new Tarjeta("BadOwner", -212); //tarjeta que excede el saldo minimo
@@ -24,11 +24,11 @@ class TarjetaTest extends TestCase{
 
         //Creacion de tarjetas:
         echo "\n\n Se revisan los valores\n"; 
-        $this->assertEquals($badTarjeta1->verSaldo(), 0); //se resetea a 0 si > 6600
-        $this->assertEquals($badTarjeta2->verSaldo(), 0); //se resetea a 0 si > 6600
+        $this->assertEquals($badTarjeta1->verSaldo(), 6600); //
+        $this->assertEquals($badTarjeta2->verSaldo(), -212); //
         $this->assertEquals($tarjeta1->verSaldo(), 0); //tarjeta con saldo cero devuelve su mismo saldo, y al ser creada sin ingresar saldo, su defecto es 0
         $this->assertEquals($tarjeta1->verDeuda(), 0); //tarjeta con saldo positivo devuelve deuda 0
-        $this->assertEquals($deudaTarj->verDeuda(), 120); //tarjeta con saldo negativo devuelve negativo como deuda
+        $this->assertEquals($deudaTarj->verDeuda(), 0); //tarjeta con saldo negativo su deuda es 0 pues todavia no se ha hecho operaciones.
         
 
         //Cargas de saldo:

@@ -21,7 +21,7 @@ class Boleto{
 
     public function ver(){
         echo "\n" . $this->propName . "viajo en el colectivo " . $this->numCole . ". Su saldo era " . ($this->saldoTarjeta +120) . " y ahora es " . $this->saldoTarjeta . ".\n";
-        return "$this->numCole, $this->propName, $this->saldoTarjeta" ."\n\n";
+        return "$this->numCole, $this->propName, $this->saldoTarjeta";
     }
 
 

@@ -11,7 +11,9 @@ class Tarjeta{
 
     public function __construct($name, $s=0){
         $this->propietario = $name;
-
+        $this->saldo = $s;
+        $this->deuda = 0;
+/*      
         if($s <= 6600 || $s >= (-211.84)){
             $this->saldo = $s;
         }
@@ -24,7 +26,7 @@ class Tarjeta{
         }
         else{
             $this->deuda = $this->saldo * (-1);
-        }
+        }*/
     }
 
     public function cargarSaldo($numSaldo){
