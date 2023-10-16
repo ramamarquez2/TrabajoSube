@@ -35,7 +35,8 @@ class ColectivoTest extends TestCase{
         echo "\n\nNo se debería realizar tercer pago\n"; 
         $this->assertFalse($cole->pagarCon($tarjeta1)); //-100 - 120 = -220 Error, no se puede realizar el pago
 
-        echo "\n\nSe carga 200 de saldo\n"; 
+        echo "\n\nSe carga 200 de saldo\n";
+        $tarjeta1->verSaldo(); 
         $tarjeta1->cargarSaldo(200);
         $this->assertEquals($tarjeta1->verSaldo(), (100)); //resvisa si la deuda se descuenta del pago
     }
