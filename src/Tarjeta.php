@@ -18,7 +18,7 @@ class Tarjeta{
         else {
             $this->saldo = 0;
         }
-        
+
         if($s>=0){
             $this->deuda = 0;
         }
@@ -29,10 +29,10 @@ class Tarjeta{
 
     public function cargarSaldo($numSaldo){
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
-            echo "Usted le cargo " . $numSaldo . ".\n";
+            echo "\nUsted le cargo " . $numSaldo . ".\n";
             if($numSaldo + $this->saldo >= 0){
                 $this->saldo += $numSaldo - $this->deuda;
-                echo "Se le desconto " . $this->deuda . ".\n";
+                echo "\nSe le desconto " . $this->deuda . ".\n";
                 $this->deuda = 0;
             }
             else{
@@ -41,7 +41,7 @@ class Tarjeta{
             }
         }
         else{
-            echo "El numero es incorrecto.";
+            echo "\nEl numero es incorrecto.";
         }
 
     }
@@ -50,11 +50,11 @@ class Tarjeta{
         array_unshift($this->boletos, $bol);
     }
     public function verSaldo() {
-        echo "Tu saldo actual es " . $this->saldo. " .\n";
+        echo "\nTu saldo actual es " . $this->saldo. " .\n";
         return $this->saldo;
     }
     public function verDeuda() {
-        echo "Tu saldo actual es " . $this->deuda. " .\n";
+        echo "\nTu saldo actual es " . $this->deuda. " .\n";
         return $this->deuda;
     }
 }

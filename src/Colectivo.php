@@ -23,8 +23,8 @@ class Colectivo{
         if($tarjeta->saldo - (120*$this->descuento) >= (-211.84)){
             $tarjeta->saldo -= (120*$this->descuento);
             
-            echo "saldo previo al pago " . $tarjeta->saldo;
-            echo "descuento a aplicar en el pago " . $this->descuento;
+            echo "\nsaldo previo al pago " . $tarjeta->saldo;
+            echo "\ndescuento a aplicar en el pago " . $this->descuento;
 
             if($tarjeta->saldo < 0){
                 $tarjeta->deuda = $tarjeta->saldo * (-1);
@@ -32,8 +32,8 @@ class Colectivo{
             $boleto = new Boleto($this->linea, $tarjeta->propietario, $tarjeta->saldo);
             $tarjeta->addBoleto($boleto);
             $this->descuento = 1;
-            echo "saldo post pago " . $tarjeta->saldo;
-            echo "descuento en el próximo pago " . $this->descuento;
+            echo "\nsaldo post pago " . $tarjeta->saldo;
+            echo "\ndescuento en el próximo pago " . $this->descuento;
             return True;
         }
         return False;
