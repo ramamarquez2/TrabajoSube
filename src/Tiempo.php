@@ -4,8 +4,8 @@ $tiempo1 = time();
 sleep(5);
 $tiempo2 = time();
 
-echo "Tiempo inicial: $tiempo1      \n";
-echo "Tiempo inicial: $tiempo2      \n";
+echo "Tiempo inicial 1: $tiempo1      \n";
+echo "Tiempo inicial 2: $tiempo2      \n";
 
 $diferencia = $tiempo2 - $tiempo1;
 
