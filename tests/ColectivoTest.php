@@ -8,29 +8,30 @@ class ColectivoTest extends TestCase{
 
     public function testGetlinea(){
         $cole = new Colectivo(103);
-        $this->assertEquals($cole->getLinea(), 103);
+        $this->assertEquals($cole->getLinea(), 103); //evalua si el colectivo creado es de la linea asignada en la creacion del objeto
     }
-    //test pagarCon
+    
+
     public function testPagarcon(){
+        
         $cole = new Colectivo(103);
-        $tar = new Tarjeta("Owner", -20);
-        $tar->verSaldo();
-        $this->assertTrue($cole->pagarCon($tar));  //pago exitoso
-        $this->assertEquals($tar->verSaldo(), (-140));
-        $this->assertFalse($cole->pagarCon($tar)); //error (saldo - 120) < -211.84
-        $this->assertEquals($tar->verSaldo(), (-140));
+        $tarjeta1 = new Tarjeta("Owner",140); 
+        $tarjeta1->verSaldo();
+
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //pago exitoso
+        $this->assertEquals($tarjeta1->verSaldo(), 20);
+        
+        //testea viaje plus
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //saldo 20 - 120 = -100 .  Se crea deuda de 100
+        $this->assertEquals($tarjeta1->verSaldo(), -100); 
+        $this->assertEquals($tarjeta1->verDeuda(), 100);
+
+        $this->assertFalse($cole->pagarCon($tarjeta1)); //-100 - 120 = -220 Error, no se puede realizar el pago
+
+        $tarjeta1->cargarSaldo(200);
+        $this->assertEquals($tarjeta1->verSaldo(), (100)); //resvisa si la deuda se descuenta del pago
     }
 
-    public function testViajesplus(){
-        $cole = new Colectivo(103);
-        $tar = new Tarjeta("DebtorOwner", 110);
-        $this->assertTrue($cole->pagarCon($tar)); //110 - 120 = -10
-        $this->assertTrue($cole->pagarCon($tar)); // -10 - 120 = -130
-        $this->assertFalse($cole->pagarCon($tar));
-
-        $tar->cargarSaldo(150);
-        $this->assertEquals($tar->verSaldo(), (20));
-    }
 
 /*
 Escribir un test que valide que una tarjeta de
@@ -41,31 +42,32 @@ con medio boleto es siempre la mitad del normal.
 */
     public function testFranquicia(){
         $cole = new Colectivo(103);
-        $tar = new FranquiciaCompleta("DebtorOwner", -211.84);
+        $tarjeta1 = new FranquiciaCompleta("DebtorOwner", -211.84); //teniendo saldo límite
 
-        $this->assertTrue($cole->pagarCon($tar)); //boleto 1
-        $this->assertTrue($cole->pagarCon($tar)); //boleto 2
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 2
+        //paga dos boletos gratuitos
 
-        $this->assertFalse($cole->pagarCon($tar)); //no tiene mas boletos, no puede pagar
+        $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar
     }
 
     public function testMedioBoleto(){
         $cole = new Colectivo(103);
-        $tar = new MedioBoleto("Owner", 240);
-        $this->assertTrue($cole->pagarCon($tar));  //medio 1
-        $this->assertEquals($tar->verSaldo(), (180));//descontó mitad
+        $tarjeta1 = new MedioBoleto("Owner", 240);
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1
+        $this->assertEquals($tarjeta1->verSaldo(), (180));//descontó mitad
 
-        $this->assertTrue($cole->pagarCon($tar));  //medio 2
-        $this->assertEquals($tar->verSaldo(), (120));//descontó mitad
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 2
+        $this->assertEquals($tarjeta1->verSaldo(), (120));//descontó mitad
 
-        $this->assertTrue($cole->pagarCon($tar));  //medio 3
-        $this->assertEquals($tar->verSaldo(), (60));//descontó mitad
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 3
+        $this->assertEquals($tarjeta1->verSaldo(), (60));//descontó mitad
 
-        $this->assertTrue($cole->pagarCon($tar));  //medio 4
-        $this->assertEquals($tar->verSaldo(), (0));//descontó mitad
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 4
+        $this->assertEquals($tarjeta1->verSaldo(), (0));//descontó mitad
 
-        $this->assertTrue($cole->pagarCon($tar));  //No hay mas beneficio, pago vuelve a normal
-        $this->assertEquals($tar->verSaldo(), (-120));//pago normal
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //No hay mas beneficio, pago vuelve a normal
+        $this->assertEquals($tarjeta1->verSaldo(), (-120));//pago normal
 
     }
 }

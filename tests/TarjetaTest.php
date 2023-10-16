@@ -8,21 +8,39 @@ class TarjetaTest extends TestCase{
     
     public function testSaldo(){
         
-        $tarjeta = new Tarjeta("Owner");
-        $badTarjeta = new Tarjeta("BadOwner", 6601);
+        $tarjeta1 = new Tarjeta("Owner"); 
+        $deudaTarj = new Tarjeta("StrangeOwner", -120); //tarjeta cargada con saldo negativo
+        $badTarjeta1 = new Tarjeta("PlentyOwner", 6601); //tarjeta que excede el saldo maximo
+        $badTarjeta2 = new Tarjeta("BadOwner", -212); //tarjeta que excede el saldo minimo
 
-        $this->assertEquals($badTarjeta->verSaldo(), 0); //se resetea a 0 si > 6600
-        $this->assertEquals($tarjeta->verSaldo(), 0);
+        //Creacion de tarjetas:
 
-        $tarjeta->cargarSaldo(180); //carga erronea (numero invalido)
-        $this->assertNotEquals($tarjeta->verSaldo(), 180);
-        $tarjeta->cargarSaldo(4000);
-        $this->assertEquals($tarjeta->verSaldo(), 4000); //carga valida
-        $tarjeta->cargarSaldo(3000); //sobrepasa 6600
-        $this->assertEquals($tarjeta->verSaldo(), 4000);
+        $this->assertEquals($badTarjeta1->verSaldo(), 0); //se resetea a 0 si > 6600
+        $this->assertEquals($badTarjeta2->verSaldo(), 0); //se resetea a 0 si > 6600
+        $this->assertEquals($tarjeta1->verSaldo(), 0); //tarjeta con saldo cero devuelve su mismo saldo, y al ser creada sin ingresar saldo, su defecto es 0
+        $this->assertEquals($tarjeta1->verDeuda(), 0); //tarjeta con saldo positivo devuelve deuda 0
+        $this->assertEquals($deudaTarj->verDeuda(), 120); //tarjeta con saldo negativo devuelve negativo como deuda
+        
 
-        $debeTar = new Tarjeta("Deudor", -100);
-        $debeTar->cargarSaldo(150);
-        $this->assertEquals($debeTar->verSaldo(), 50);
+        //Cargas de saldo:
+
+        $tarjeta1->cargarSaldo(180); //carga erronea (numero invalido)
+        $this->assertNotEquals($tarjeta1->verSaldo(), 180);
+
+        $tarjeta1->cargarSaldo(4000); //carga válida
+        $this->assertEquals($tarjeta1->verSaldo(), 4000); //carga valida
+
+        $tarjeta1->cargarSaldo(3000); // carga que sobrepasa 6600
+        $this->assertEquals($tarjeta1->verSaldo(), 4000); //carga invalida
+
+        
+        $deudaTarj->cargarSaldo(100); //carga menor a deuda
+        $this->assertEquals($deudaTarj->verSaldo(), -20); //devuelve saldo negativo
+        $this->assertEquals($deudaTarj->verDeuda(), 20); //devuelve deuda 
+
+        $deudaTarj->cargarSaldo(100); //carga mayor a deuda
+        $this->assertEquals($deudaTarj->verSaldo(), 80); //devuelve saldo positivo
+        $this->assertEquals($deudaTarj->verDeuda(), 0); //devuelve deuda 0
+
     }
 }
