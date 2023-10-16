@@ -54,7 +54,7 @@ class Tarjeta{
         return $this->saldo;
     }
     public function verDeuda() {
-        echo "\nTu saldo actual es " . $this->deuda. " .\n";
+        echo "\nTu deuda actual es " . $this->deuda. " .\n";
         return $this->deuda;
     }
 }
