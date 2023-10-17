@@ -59,23 +59,25 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
             echo "\n" . $tarjeta->boletos[0]->whenPago;
             echo "\n" . ($tarjeta->boletos[0]->whenPago + 86400);
             echo "\n" . $horaactual;
-            if(($tarjeta->boletos[0]->whenPago + 86400) < $horaactual ){ // 1 dia = 864000 s
-                echo "\n Paso al menos 1 dia";
-                $tarjeta->beneficiosRestantes = 2;
-                echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
-                $tarjeta->beneficiosRestantes -= 1;
-                echo "\n Beneficios se resta a: " . $tarjeta->beneficiosRestantes;
-                $this->descuento = $tarjeta->descuentoFraccional;
-                echo "\n Se setea descuento: " . $this->descuento;
-            }
-            else{
-                echo "\nEn el mismo dia";
-                echo "\n Beneficios restantes: " . $tarjeta->beneficiosRestantes;
-                if($tarjeta->beneficiosRestantes > 0){
-                $tarjeta->beneficiosRestantes -= 1;
-                echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
-                $this->descuento = $tarjeta->descuentoFraccional;
-                echo "\n Se setea descuento: " . $this->descuento;
+            if($tarjeta->diaInRango($horaactual)){
+                if(($tarjeta->boletos[0]->whenPago + 86400) < $horaactual ){ // 1 dia = 864000 s
+                    echo "\n Paso al menos 1 dia";
+                    $tarjeta->beneficiosRestantes = 2;
+                    echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
+                    $tarjeta->beneficiosRestantes -= 1;
+                    echo "\n Beneficios se resta a: " . $tarjeta->beneficiosRestantes;
+                    $this->descuento = $tarjeta->descuentoFraccional;
+                    echo "\n Se setea descuento: " . $this->descuento;
+                }
+                else{
+                    echo "\nEn el mismo dia";
+                    echo "\n Beneficios restantes: " . $tarjeta->beneficiosRestantes;
+                    if($tarjeta->beneficiosRestantes > 0){
+                    $tarjeta->beneficiosRestantes -= 1;
+                    echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
+                    $this->descuento = $tarjeta->descuentoFraccional;
+                   echo "\n Se setea descuento: " . $this->descuento;
+                   }
                 }
             }
         }
@@ -88,7 +90,6 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
             }
         }
         else{
-          
             if( !$tarjeta->mismoMes($horaactual, $tarjeta->boletos[$tarjeta->primerBoletoMes]->verFecha()) ){
                     $tarjeta->primerBoletoMes = 0;
             }

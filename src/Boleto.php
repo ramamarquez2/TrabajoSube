@@ -22,11 +22,7 @@ class Boleto{
     Escribir los tests correspondientes a los posibles tipos de boletos a obtener según el tipo de tarjeta.
     */
     public function __construct($linea, $fechaBoleto = null, $id, $tipoTarj, $saldo, $abonado, $restante, $desc = ""){
-        
-        if ($fechaBoleto == null) {
-            $fechaBoleto = date('Y-m-d');
-        }
-
+    
         $this->lineaColec = $linea;
         $this->fecha = $fechaBoleto;
         $this->idTarjeta = $id;
