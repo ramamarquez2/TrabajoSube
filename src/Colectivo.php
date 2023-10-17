@@ -116,8 +116,12 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
     public function getLinea(){
         return $this->linea;
     }
-    public function verDescuento(){
-        return $this->descuento;
-    }
+
 }
+
+/*
+class ColectivoInterurbano extends Colectivo{
+        public $PRECIOBOLETO = 184;
+    }
+*/
 ?>
