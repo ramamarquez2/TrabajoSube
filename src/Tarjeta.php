@@ -6,7 +6,7 @@ class Tarjeta{
     public float $saldo;
     public float $deuda;
     public float $exceso;
-    public float $descuentoFraccional;
+    public float $descuentoFraccional=1;
     
     public $tipoDeTarjeta;
     public float $precioBoleto;

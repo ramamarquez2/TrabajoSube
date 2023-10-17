@@ -117,7 +117,7 @@ class ColectivoTest extends TestCase{
         echo "\nSe creó tarjeta\n";
 
         $tarjeta1->verSaldo();
-        
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1
         $this->assertEquals($tarjeta1->verSaldo(),380); // No aplica medio, no hay beneficio en lahora
         
         echo "\nPasan 7 horas";
@@ -190,5 +190,14 @@ class ColectivoTest extends TestCase{
         $this->assertEquals($badTarjeta2->verSaldo(), 6510); // exceso cubrió parte del pago, el resto se descontó de saldo
         $this->assertEquals($badTarjeta2->verExcedente(), 0); // exceso se vacio cubriendo el pago
          
+    }
+
+
+    public function testColectivoInterurbano(){
+        $tarjeta1 = new Tarjeta(1,184);
+        $coleInterurbano = new ColectivoInterurbano();
+        $coleInterurbano->pagarCon($tarjeta1);
+        $this->assertEquals($tarjeta1->verSaldo(),0);
+
     }
 }
