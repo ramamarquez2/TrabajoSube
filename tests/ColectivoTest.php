@@ -52,7 +52,7 @@ class ColectivoTest extends TestCase{
         $tarjeta1->verSaldo();
         $tarjeta1->falsearTiempo();
 
-        echo "\n\nSe pagan dos boletos gratuitos\n"; 
+        echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
@@ -72,7 +72,7 @@ class ColectivoTest extends TestCase{
         $tarjeta1->verSaldo();
         $tarjeta1->falsearTiempo();
 
-        echo "\n\nSe pagan dos boletos gratuitos\n"; 
+        echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
@@ -95,7 +95,7 @@ class ColectivoTest extends TestCase{
         $tarjeta1->falsearTiempo();
 
 
-        echo "\n\nSe pagan medio 1\n"; 
+        echo "\n\n---Se pagan medio 1---\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1
         $this->assertEquals($tarjeta1->verSaldo(), (240));//descontó mitad
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =3 

@@ -12,7 +12,9 @@ class Tarjeta{
     public float $precioBoleto;
     public array $ifSaldo = [150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000];
     public array $boletos = []; 
-
+    public function addBoleto(Boleto $bol){
+        array_unshift($this->boletos, $bol);
+    }
     public function __construct($id, $s=0){
         $this->idTarjeta = $id;
         $this->saldo = $s;
@@ -67,9 +69,7 @@ class Tarjeta{
         */
     }
 
-    public function addBoleto(Boleto $bol){
-        array_unshift($this->boletos, $bol);
-    }
+
     public function verSaldo() {
         echo "\nTu saldo actual es " . $this->saldo. " .\n";
         return $this->saldo;

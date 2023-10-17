@@ -34,7 +34,6 @@ class BoletoTest extends TestCase{
     }
     public function testBoletoZero(){
         $tar = new Tarjeta(1, 120);
-        $cole = new Colectivo(103);
         $this->assertEquals($tar->boletos[0]->verColectivo(),0);
         $this->assertEquals($tar->boletos[0]->verId(),1);
         $this->assertEquals($tar->boletos[0]->verTipoTarjeta(),"Normal");

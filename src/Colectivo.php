@@ -36,23 +36,44 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
         $horaactual = $tarjeta->fakeTime();
 
         if($tarjeta instanceof MedioBoleto){
+            echo "\n-Es medio boleto";
+            echo "\n" . $tarjeta->boletos[0]->whenPago;
+            echo "\n" . ($tarjeta->boletos[0]->whenPago + 300);
+            echo "\n" . $horaactual;
+
             if( ($tarjeta->boletos[0]->whenPago + 300) < $horaactual){ // 300 = 5 minutos
+                echo "\n Pasaron al menos 5 minutos";
                 if($tarjeta->beneficiosRestantes > 0){
+                    echo "\n Hay al menos un beneficio restante: " . $tarjeta->beneficiosRestantes;
                     $tarjeta->beneficiosRestantes -= 1;
+                    echo "\n Luego de resta: " . $tarjeta->beneficiosRestantes;
                     $this->descuento = $tarjeta->descuentoFraccional;
+                    echo "\n Se setea descuento: " . $this->descuento;
                 }
             }
         }
         if($tarjeta instanceof FranquiciaCompleta){
+            echo "\n-Es franquicia completa";
+            echo "\n" . $tarjeta->boletos[0]->whenPago;
+            echo "\n" . ($tarjeta->boletos[0]->whenPago + 86400);
+            echo "\n" . $horaactual;
             if(($tarjeta->boletos[0]->whenPago + 86400) < $horaactual ){ // 1 dia = 864000 s
+                echo "\n Paso al menos 1 dia";
                 $tarjeta->beneficiosRestantes = 2;
+                echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
                 $tarjeta->beneficiosRestantes -= 1;
+                echo "\n Beneficios se resta a: " . $tarjeta->beneficiosRestantes;
                 $this->descuento = $tarjeta->descuentoFraccional;
+                echo "\n Se setea descuento: " . $this->descuento;
             }
             else{
+                echo "\nEn el mismo dia";
+                echo "\n Beneficios restantes: " . $tarjeta->beneficiosRestantes;
                 if($tarjeta->beneficiosRestantes > 0){
                 $tarjeta->beneficiosRestantes -= 1;
+                echo "\n Beneficios se pone en: " . $tarjeta->beneficiosRestantes;
                 $this->descuento = $tarjeta->descuentoFraccional;
+                echo "\n Se setea descuento: " . $this->descuento;
                 }
             }
         } 
