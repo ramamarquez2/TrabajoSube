@@ -76,6 +76,7 @@ class ColectivoTest extends TestCase{
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
+        $this->assertTrue($cole->pagarCon($tarjeta1));
         $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
         //paga dos boletos gratuitos
         echo "\n\nPasa 1 día\n"; 
