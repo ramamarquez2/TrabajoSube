@@ -32,20 +32,16 @@ Escribir un test que verifique que no se puedan realizar más de dos viajes grat
 Escribir un test que verifique que los viajes posteriores al segundo se cobran con el precio completo.
     */
     public function pagarCon(Tarjeta $tarjeta)
-    {
-        $horaactual = time();
+    {   
+        $horaactual = $tarjeta->fakeTime();
 
-        
         if($tarjeta instanceof MedioBoleto){
-            if( ($tarjeta->boletos[0]->whenPago + 300) >= $horaactual){ // 300 = 5 minutos
-                return false;
-            }
-            else{
+            if( ($tarjeta->boletos[0]->whenPago + 300) < $horaactual){ // 300 = 5 minutos
                 if($tarjeta->beneficiosRestantes > 0){
                     $tarjeta->beneficiosRestantes -= 1;
                     $this->descuento = $tarjeta->descuentoFraccional;
                 }
-            } 
+            }
         }
         if($tarjeta instanceof FranquiciaCompleta){
             if(($tarjeta->boletos[0]->whenPago + 86400) < $horaactual ){ // 1 dia = 864000 s
@@ -83,7 +79,7 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
                 }
             }
 
-            $boleto = new Boleto($this->linea, null, $tarjeta->idTarjeta, $tarjeta->tipoDeTarjeta, $saldoPrevio, ($this->PRECIOBOLETO*$this->descuento), $tarjeta->saldo);
+            $boleto = new Boleto($this->linea, $horaactual, $tarjeta->idTarjeta, $tarjeta->tipoDeTarjeta, $saldoPrevio, ($this->PRECIOBOLETO*$this->descuento), $tarjeta->saldo);
             $tarjeta->addBoleto($boleto);
             $this->descuento = 1;
             echo "\nsaldo post pago " . $tarjeta->saldo;

@@ -21,6 +21,7 @@ class ColectivoTest extends TestCase{
         $tarjeta1 = new Tarjeta(1,140);
         echo "\nSe creó tarjeta 1\n"; 
         $tarjeta1->verSaldo();
+        $tarjeta1->falsearTiempo();
 
         echo "\n\nSe realiza primer pago\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //pago exitoso
@@ -38,62 +39,94 @@ class ColectivoTest extends TestCase{
         echo "\n\nSe carga 200 de saldo\n";
         $tarjeta1->verSaldo(); 
         $tarjeta1->cargarSaldo(200);
-        $this->assertEquals($tarjeta1->verSaldo(), (100)); //resvisa si la deuda se descuenta del pago
+        $this->assertEquals($tarjeta1->verSaldo(), 100); //resvisa si la deuda se descuenta del pago
     }
 
-
-/*
-Escribir un test que valide que una tarjeta de
-FranquiciaCompleta siempre puede pagar un boleto.
-
-Escribir un test que valide que el monto del boleto pagado
-con medio boleto es siempre la mitad del normal.
-*/
-    public function testFranquicia(){
+    public function testFranquiciaMismoDia(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
+
         $tarjeta1 = new FranquiciaCompleta(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
+
         $tarjeta1->verSaldo();
+        $tarjeta1->falsearTiempo();
 
         echo "\n\nSe pagan dos boletos gratuitos\n"; 
+        $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 2
+        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
         //paga dos boletos gratuitos
-        
         echo "\n\nSe intenta pagar otro boleto\n"; 
-        $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar
+        $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar, pues tiene saldo límite
+    }
+    public function testFranquiciaDistDia(){
+        $cole = new Colectivo(103);
+        echo "\nSe creó colectivo\n";
+
+        $tarjeta1 = new FranquiciaCompleta(1, -211.83); //teniendo saldo límite
+        echo "\nSe creó tarjeta\n";
+
+        $tarjeta1->verSaldo();
+        $tarjeta1->falsearTiempo();
+
+        echo "\n\nSe pagan dos boletos gratuitos\n"; 
+        $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
+        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
+        //paga dos boletos gratuitos
+        echo "\n\nPasa 1 día\n"; 
+        $tarjeta1->fakeTimeAgregar(86401);
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //Vuelve a tener boletos
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
     }
 
     public function testMedioBoleto(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
-        $tarjeta1 = new MedioBoleto(1, 240);
+
+        $tarjeta1 = new MedioBoleto(1, 300);
         echo "\nSe creó tarjeta\n";
+
         $tarjeta1->verSaldo();
+        $tarjeta1->falsearTiempo();
 
 
         echo "\n\nSe pagan medio 1\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1
-        $this->assertEquals($tarjeta1->verSaldo(), (180));//descontó mitad
+        $this->assertEquals($tarjeta1->verSaldo(), (240));//descontó mitad
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =3 
 
-        echo "\n\nSe pagan medio 2\n"; 
-        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 2
-        $this->assertEquals($tarjeta1->verSaldo(), (120));//descontó mitad
+        echo "\n\nSe intenta pagar instantáneamente medio 2\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //intento de medio 2, se puede pagar pero sin descuento
+        $this->assertEquals($tarjeta1->verSaldo(), (120)); // saldo - 120
 
-        echo "\n\nSe pagan medio 3\n";
+        echo "\n\nSe paga medio 2 con espera\n"; 
+        $tarjeta1->fakeTimeAgregar(301);
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 2 , 
+        $this->assertEquals($tarjeta1->verSaldo(), (60)); // descuenta mitad
+
+        
+        echo "\n\nSe pagan medio 3 con espera\n";
+        $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 3
-        $this->assertEquals($tarjeta1->verSaldo(), (60));//descontó mitad
-
-        echo "\n\nSe pagan medio 4\n";
-        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 4
         $this->assertEquals($tarjeta1->verSaldo(), (0));//descontó mitad
 
+        echo "\n\nSe pagan medio 4 con espera\n";
+        $tarjeta1->fakeTimeAgregar(301);
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 4
+        $this->assertEquals($tarjeta1->verSaldo(), (-60));//descontó mitad
+
         echo "\n\nNo hay beneficio, pago vuelve a ser normal\n";
+        $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //No hay mas beneficio, pago vuelve a normal
-        $this->assertEquals($tarjeta1->verSaldo(), (-120));//pago normal
+        $this->assertEquals($tarjeta1->verSaldo(), (-180));//pago normal
 
     }
+
 
     public function testSaldoYExceso(){
         
@@ -102,12 +135,14 @@ con medio boleto es siempre la mitad del normal.
         $badTarjeta = new Tarjeta(1, 6600); //tarjeta con maximo
         echo "\nSe creó tarjeta\n";
         $badTarjeta->verSaldo();
+        $badTarjeta->falsearTiempo();
         $this->assertEquals($badTarjeta->verSaldo(), 6600);
 
 
         $badTarjeta->cargarSaldo(1000); // 6600 de saldo, 1000 de exceso
         $this->assertEquals($badTarjeta->verExcedente(), 1000); // exceso
 
+        
         $this->assertTrue($cole->pagarCon($badTarjeta));  //pago exitoso, descuenta 120 a exceso 100 -120 = 880
         $this->assertEquals($badTarjeta->verSaldo(), 6600); //el saldo esta acotado a 6600, el exceso cubrió el pago
         $this->assertEquals($badTarjeta->verExcedente(), 880); // exceso cubrio el pago

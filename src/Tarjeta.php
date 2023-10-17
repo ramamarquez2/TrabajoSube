@@ -1,6 +1,7 @@
 <?php
 namespace TrabajoSube;
 class Tarjeta{
+    
     public int $idTarjeta;
     public float $saldo;
     public float $deuda;
@@ -18,6 +19,9 @@ class Tarjeta{
         $this->deuda = 0;
         $this->exceso = 0;
         $this->tipoDeTarjeta = 'Normal';
+
+        $boletoVacio = new Boleto(0, 0 , $this->idTarjeta, $this->tipoDeTarjeta, 0, 0, 0); //primer boleto creado, fecha tiempo en 0, de forma tal que pueda mantenerse la generalidad de la funcion
+        $this->addBoleto($boletoVacio);
 
     }
     
@@ -78,6 +82,40 @@ class Tarjeta{
         echo "\nTu excedente actual es " . $this->exceso. " .\n";
         return $this->exceso;
     }
+
+
+    public function mismoDia($date1,$date2){
+        return date("l jS \of F Y", $date1) == date("l jS \of F Y", $date2);
+    }
+    protected function mismoMes($date1, $date2){
+        return date("F Y", $date1) == date("F Y", $date2);
+    }
+
+    public function diaInRango($tiempoAct){
+        $diaAct = date('l',$tiempoAct);
+        $tiempoAct = date('H:i:s',$tiempoAct);
+        return (($diaAct != "Saturday" && $diaAct != "Sunday") && ($tiempoAct >= '06:00:00' && $tiempoAct <= '22:00:00'));
+    }
+    
+    
+    public $fakeTimeAgregado = 0;
+    public $usarTime = true;
+    public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
+        $this->fakeTimeAgregado += $agregado;
+    }
+  
+    public function fakeTime(){ 
+        if($this->usarTime)
+            return time() + $this->fakeTimeAgregado;
+        else 
+            return 1697414400 + $this->fakeTimeAgregado;
+    }
+    //2023/10/16 = 1697414400
+  
+    public function falsearTiempo(){ //usado para trabajar en los test con tiempo falso
+        $this->usarTime = false;
+    }
+
 }
 
 class FranquiciaCompleta extends Tarjeta {
@@ -90,6 +128,11 @@ class FranquiciaCompleta extends Tarjeta {
         $this->descuentoFraccional = 0;
         $this->tipoDeTarjeta = 'FranquiciaCompleta';
     }
+
+    public function verBeneficios() {
+        echo "\nTus beneficios restantes son " . $this->beneficiosRestantes. " .\n";
+        return $this->beneficiosRestantes;
+    }
 }
 class MedioBoleto extends Tarjeta {
     public int $beneficiosRestantes;
@@ -100,6 +143,10 @@ class MedioBoleto extends Tarjeta {
         $this->beneficiosRestantes = 4;
         $this->descuentoFraccional = 0.5;
         $this->tipoDeTarjeta = 'MedioBoleto';
+    }
+    public function verBeneficios() {
+        echo "\nTus beneficios restantes son " . $this->beneficiosRestantes. " .\n";
+        return $this->beneficiosRestantes;
     }
 }
 
