@@ -149,7 +149,11 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
 }
 
 class ColectivoInterurbano extends Colectivo{
-        public $PRECIOBOLETO = 184;
+    public function __construct($linea){
+        parent::__construct($linea);
+        $this->PRECIOBOLETO = 184;
+    }
+        
     }
 
 ?>

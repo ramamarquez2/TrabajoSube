@@ -101,10 +101,12 @@ class ColectivoTest extends TestCase{
 
         echo "\n\nPasa 1 día\n";
         $tarjeta1->fakeTimeAgregar(86401);
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //puede seguir pagando
 
-        $tarjeta1->fakeTimeAgregar(86401);
-        $this->assertTrue($cole->pagarCon($tarjeta1)); //Vuelve a tener boletos
-        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
+        echo "\n\nPasan 4 días (se hace sabado\n";
+        $tarjeta1->fakeTimeAgregar(86401*4);
+        $this->assertFalse($cole->pagarCon($tarjeta1)); //no puede seguir pagando
+
     }
 
     public function testMedioBoleto(){
