@@ -99,7 +99,7 @@ class Tarjeta{
     
     
     public $fakeTimeAgregado = 0;
-    public $usarTime = true;
+    public $usarTime = false;
     public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
         $this->fakeTimeAgregado += $agregado;
     }
@@ -112,9 +112,9 @@ class Tarjeta{
     }
     //2023/10/16 = 1697414400
   
-    public function falsearTiempo(){ //usado para trabajar en los test con tiempo falso
+    /*public function activarTiempo(){   se usaría para que el tiempo funcione de verdad
         $this->usarTime = false;
-    }
+    }*/
 
 }
 

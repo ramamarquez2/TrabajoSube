@@ -21,7 +21,7 @@ class ColectivoTest extends TestCase{
         $tarjeta1 = new Tarjeta(1,140);
         echo "\nSe creó tarjeta 1\n"; 
         $tarjeta1->verSaldo();
-        $tarjeta1->falsearTiempo();
+        
 
         echo "\n\nSe realiza primer pago\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //pago exitoso
@@ -50,7 +50,7 @@ class ColectivoTest extends TestCase{
         echo "\nSe creó tarjeta\n";
 
         $tarjeta1->verSaldo();
-        $tarjeta1->falsearTiempo();
+        
 
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
@@ -70,7 +70,7 @@ class ColectivoTest extends TestCase{
         echo "\nSe creó tarjeta\n";
 
         $tarjeta1->verSaldo();
-        $tarjeta1->falsearTiempo();
+        
 
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
@@ -93,7 +93,7 @@ class ColectivoTest extends TestCase{
         echo "\nSe creó tarjeta\n";
 
         $tarjeta1->verSaldo();
-        $tarjeta1->falsearTiempo();
+        
 
 
         echo "\n\n---Se pagan medio 1---\n"; 
@@ -141,7 +141,6 @@ class ColectivoTest extends TestCase{
         $badTarjeta = new Tarjeta(1, 6600); //tarjeta con maximo
         echo "\nSe creó tarjeta\n";
         $badTarjeta->verSaldo();
-        $badTarjeta->falsearTiempo();
         $this->assertEquals($badTarjeta->verSaldo(), 6600);
 
 
