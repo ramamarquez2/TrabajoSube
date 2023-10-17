@@ -46,7 +46,7 @@ class ColectivoTest extends TestCase{
         $this->assertEquals($tarjeta1->verSaldo(), 100); //resvisa si la deuda se descuenta del pago
     }
     public function testPagarconNormalMasBeneficicios(){
-        
+        echo "\n||||PAGO CON BENEFICIOS||||\n";
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
         $tarjeta1 = new Tarjeta(1,620);
