@@ -23,25 +23,31 @@ class Tarjeta{
 
     public function cargarSaldo($numSaldo){
         
-        if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
+        if(in_array($numSaldo, $this->ifSaldo)){
+            if(($numSaldo + $this->saldo) <= 6600){
             
-            echo "\nUsted le cargo " . $numSaldo . ".\n";
-            if($numSaldo + $this->saldo >= 0){
-                echo "El saldo final es positivo " . $numSaldo + $this->saldo . ".\n";
-                echo "Saldo a cargar " . ($numSaldo-$this->deuda) . ".\n";
+                echo "\nUsted le cargo " . $numSaldo . ".\n";
+                if($numSaldo + $this->saldo >= 0){
+                    echo "El saldo final es positivo " . $numSaldo + $this->saldo . ".\n";
+                    echo "Saldo a cargar " . ($numSaldo-$this->deuda) . ".\n";
 
-                $this->saldo += $numSaldo;
-                echo "\nSe le desconto " . $this->deuda . ".\n";
-                $this->deuda = 0;
+                    $this->saldo += $numSaldo;
+                    echo "\nSe le desconto " . $this->deuda . ".\n";
+                    $this->deuda = 0;
+                }
+                else{
+                    $this->saldo += $numSaldo;
+                    $this->deuda = $this->saldo * (-1);
+                }
             }
             else{
-                $this->saldo += $numSaldo;
-                $this->deuda = $this->saldo * (-1);
+                $this->exceso = (($this->saldo + $numSaldo) - 6600);
+                $this->saldo = 6600;
             }
         }
-        else{
-            $this->exceso = (($this->saldo + $numSaldo) - 6600);
-            $this->saldo = 6600;
+        else
+        {
+            echo "No se puede realizar la carga";
         }
 
         /*
