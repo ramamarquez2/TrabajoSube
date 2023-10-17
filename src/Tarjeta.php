@@ -53,7 +53,7 @@ class Tarjeta{
         $this->tipoDeTarjeta = 'Normal';
         $this->descuentoFraccional = 1;
 
-        $boletoVacio = new Boleto(0, 0 , $this->idTarjeta, $this->tipoDeTarjeta, 0, 0, 0); //primer boleto creado, fecha tiempo en 0, de forma tal que pueda mantenerse la generalidad de la funcion
+        $boletoVacio = new Boleto(0, $this->fakeTime , $this->idTarjeta, $this->tipoDeTarjeta, 0, 0, 0); //primer boleto creado, fecha tiempo en 0, de forma tal que pueda mantenerse la generalidad de la funcion
         $this->addBoleto($boletoVacio);
         $this->primerBoletoMes=0;
 

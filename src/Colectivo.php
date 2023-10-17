@@ -12,25 +12,6 @@ class Colectivo{
         $this->PRECIOBOLETO = 120;
     }
 
-    /* 
-    Para evitar el uso de una tarjeta de tipo medio boleto en más de una persona
-    en el mismo viaje se pide que: Al utilizar una tarjeta de tipo medio boleto para
-    viajar, deben pasar como mínimo 5 minutos antes de realizar otro viaje. No será
-    posible pagar otro viaje antes de que pasen estos 5 minutos.
-
-Escribir un test que verifique efectivamente que no se deje marcar nuevamente al intentar
-realizar otro viaje en un intervalo menor a 5 minutos con la misma tarjeta medio boleto.
-Para el caso del medio boleto, se pueden realizar hasta cuatro viajes por día. El quinto viaje ya posee su valor normal.
-Escribir un test que verifique que no se puedan realizar más de cuatro viajes por día con medio boleto.
-
-Limitación en el pago de franquicias completas.
-Para evitar el uso de una tarjeta de tipo boleto educativo gratuito en más de una persona
-en el mismo viaje se pide que: Al utilizar una tarjeta de tipo boleto educativo gratuito se
-pueden realizar hasta 2 viajes gratis por día.
-
-Escribir un test que verifique que no se puedan realizar más de dos viajes gratuitos por día.
-Escribir un test que verifique que los viajes posteriores al segundo se cobran con el precio completo.
-    */
     public function pagarCon(Tarjeta $tarjeta)
     {   
         $horaactual = $tarjeta->fakeTime();
