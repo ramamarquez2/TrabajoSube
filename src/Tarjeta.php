@@ -6,24 +6,56 @@ class Tarjeta{
     public float $saldo;
     public float $deuda;
     public float $exceso;
+    public float $descuentoFraccional;
     
-
     public $tipoDeTarjeta;
     public float $precioBoleto;
     public array $ifSaldo = [150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000];
     public array $boletos = []; 
+    public int $primerBoletoMes;
     public function addBoleto(Boleto $bol){
         array_unshift($this->boletos, $bol);
     }
+    
+    protected function mismoMes($date1, $date2){
+        return date("F Y", $date1) == date("F Y", $date2);
+    }
+    public function diaInRango($tiempoAct){
+        $diaAct = date('l',$tiempoAct);
+        $tiempoAct = date('H:i:s',$tiempoAct);
+        return (($diaAct != "Saturday" && $diaAct != "Sunday") && ($tiempoAct >= '06:00:00' && $tiempoAct <= '22:00:00'));
+    }
+    
+    
+    public $fakeTimeAgregado = 0;
+    public $usarTime = false;
+    public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
+        $this->fakeTimeAgregado += $agregado;
+    }
+  
+    public function fakeTime(){ 
+        if($this->usarTime)
+            return time() + $this->fakeTimeAgregado;
+        else 
+            return 1697414400 + $this->fakeTimeAgregado;
+    }
+    //2023/10/16 = 1697414400
+  
+    /*public function activarTiempo(){   se usaría para que el tiempo funcione de verdad
+        $this->usarTime = false;
+    }*/
+
     public function __construct($id, $s=0){
         $this->idTarjeta = $id;
         $this->saldo = $s;
         $this->deuda = 0;
         $this->exceso = 0;
         $this->tipoDeTarjeta = 'Normal';
+        $this->descuentoFraccional = 1;
 
         $boletoVacio = new Boleto(0, 0 , $this->idTarjeta, $this->tipoDeTarjeta, 0, 0, 0); //primer boleto creado, fecha tiempo en 0, de forma tal que pueda mantenerse la generalidad de la funcion
         $this->addBoleto($boletoVacio);
+        $this->primerBoletoMes=0
 
     }
     
@@ -87,38 +119,16 @@ class Tarjeta{
     public function mismoDia($date1,$date2){
         return date("l jS \of F Y", $date1) == date("l jS \of F Y", $date2);
     }
-    protected function mismoMes($date1, $date2){
-        return date("F Y", $date1) == date("F Y", $date2);
-    }
-
-    public function diaInRango($tiempoAct){
-        $diaAct = date('l',$tiempoAct);
-        $tiempoAct = date('H:i:s',$tiempoAct);
-        return (($diaAct != "Saturday" && $diaAct != "Sunday") && ($tiempoAct >= '06:00:00' && $tiempoAct <= '22:00:00'));
-    }
     
     */
-    public $fakeTimeAgregado = 0;
-    public $usarTime = false;
-    public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
-        $this->fakeTimeAgregado += $agregado;
-    }
-  
-    public function fakeTime(){ 
-        if($this->usarTime)
-            return time() + $this->fakeTimeAgregado;
-        else 
-            return 1697414400 + $this->fakeTimeAgregado;
-    }
-    //2023/10/16 = 1697414400
-  
-    /*public function activarTiempo(){   se usaría para que el tiempo funcione de verdad
-        $this->usarTime = false;
-    }*/
+
 
 }
 
-class FranquiciaCompleta extends Tarjeta {
+
+/*
+*/
+class FranquiciaCompletaBEG extends Tarjeta {
     public int $beneficiosRestantes;
     public float $descuentoFraccional;
 
@@ -134,6 +144,17 @@ class FranquiciaCompleta extends Tarjeta {
         return $this->beneficiosRestantes;
     }
 }
+
+class FranquiciaCompletaJubilado extends Tarjeta {
+    public float $descuentoFraccional;
+
+    public function __construct($id, $s=0){
+        parent::__construct($id, $s);
+        $this->descuentoFraccional = 0;
+        $this->tipoDeTarjeta = 'FranquiciaCompleta';
+    }
+}
+
 class MedioBoleto extends Tarjeta {
     public int $beneficiosRestantes;
     public float $descuentoFraccional;

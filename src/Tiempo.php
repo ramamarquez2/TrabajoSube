@@ -1,5 +1,7 @@
 <?php
 
+class TiempoTest{
+/*
 $tiempo1 = time();
 sleep(5);
 $tiempo2 = time();
@@ -34,5 +36,40 @@ echo "\n";
 echo date("Y/m/d",(strtotime ( date("Y/m/d", (strtotime("2023/06/30") )) ) ) );
 
 echo "\n\n\n";
-echo date ("H:i",10800);
+echo date ("H:i",10800);*/
+
+public function diaInRango($tiempoAct){
+    $diaAct = date('l',$tiempoAct);
+    $tiempoAct = date('H:i:s',$tiempoAct);
+    return (($diaAct != "Saturday" && $diaAct != "Sunday") && ($tiempoAct >= '06:00:00' && $tiempoAct <= '22:00:00'));
+}
+
+public $fakeTimeAgregado = 0;
+public $usarTime = false;
+public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
+    $this->fakeTimeAgregado += $agregado;
+}
+
+public function fakeTime(){ 
+    if($this->usarTime)
+        return time() + $this->fakeTimeAgregado;
+    else 
+        return 1697414400 + $this->fakeTimeAgregado;
+}
+}
+
+$test = new TiempoTest;
+
+$test->fakeTimeAgregar(25200);
+echo $test->fakeTime();
+echo "\n" . date('l',$test->fakeTime());
+echo "\n" . date('H:i:s',$test->fakeTime());
+if($test->diaInRango($test->fakeTime())){
+    echo "T";
+}
+else{
+    echo "Fa";
+}
+
+
 ?>

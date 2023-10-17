@@ -44,11 +44,13 @@ class TarjetaTest extends TestCase{
         $this->assertEquals($deudaTarj->verSaldo(), 140); //devuelve saldo positivo
         $this->assertEquals($deudaTarj->verDeuda(), 0); //devuelve deuda 0
 
-        $tarjFranquicia = new FranquiciaCompleta(2,0);
+        $tarjFranquiciaBeg = new FranquiciaCompletaBEG(2,0);
+        $tarjFranquiciaJubi = new FranquiciaCompletaJubilado(2,0);
         $tarjMedioboleto = new MedioBoleto(2,0);
 
         $this->assertEquals($tarjeta1->tipoDeTarjeta, "Normal"); //devuelve saldo positivo
-        $this->assertEquals($tarjFranquicia->tipoDeTarjeta, "FranquiciaCompleta"); //devuelve saldo positivo
+        $this->assertEquals($tarjFranquiciaBeg->tipoDeTarjeta, "FranquiciaCompleta"); //devuelve saldo positivo
+        $this->assertEquals($tarjFranquiciaJubi->tipoDeTarjeta, "FranquiciaCompleta"); //devuelve saldo positivo
         $this->assertEquals($tarjMedioboleto->tipoDeTarjeta, "MedioBoleto"); //devuelve saldo positivo
 
     }

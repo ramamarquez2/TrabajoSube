@@ -36,24 +36,26 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
         $horaactual = $tarjeta->fakeTime();
 
         if($tarjeta instanceof MedioBoleto){
-            echo "\n-Es medio boleto";
-            echo "\n" . $tarjeta->boletos[0]->whenPago;
-            echo "\n" . ($tarjeta->boletos[0]->whenPago + 300);
-            echo "\n" . $horaactual;
+            if($tarjeta->diaInRango($horaactual)){
+                echo "\n-Es medio boleto";
+                echo "\n" . $tarjeta->boletos[0]->whenPago;
+                echo "\n" . ($tarjeta->boletos[0]->whenPago + 300);
+                echo "\n" . $horaactual;
 
-            if( ($tarjeta->boletos[0]->whenPago + 300) < $horaactual){ // 300 = 5 minutos
-                echo "\n Pasaron al menos 5 minutos";
-                if($tarjeta->beneficiosRestantes > 0){
-                    echo "\n Hay al menos un beneficio restante: " . $tarjeta->beneficiosRestantes;
-                    $tarjeta->beneficiosRestantes -= 1;
-                    echo "\n Luego de resta: " . $tarjeta->beneficiosRestantes;
-                    $this->descuento = $tarjeta->descuentoFraccional;
-                    echo "\n Se setea descuento: " . $this->descuento;
+                if( ($tarjeta->boletos[0]->whenPago + 300) < $horaactual){ // 300 = 5 minutos
+                    echo "\n Pasaron al menos 5 minutos";
+                    if($tarjeta->beneficiosRestantes > 0){
+                        echo "\n Hay al menos un beneficio restante: " . $tarjeta->beneficiosRestantes;
+                        $tarjeta->beneficiosRestantes -= 1;
+                        echo "\n Luego de resta: " . $tarjeta->beneficiosRestantes;
+                        $this->descuento = $tarjeta->descuentoFraccional;
+                        echo "\n Se setea descuento: " . $this->descuento;
+                    }
                 }
             }
         }
-        if($tarjeta instanceof FranquiciaCompleta){
-            echo "\n-Es franquicia completa";
+        elseif($tarjeta instanceof FranquiciaCompletaBEG){
+            echo "\n-Es FranquiciaCompletaBEG";
             echo "\n" . $tarjeta->boletos[0]->whenPago;
             echo "\n" . ($tarjeta->boletos[0]->whenPago + 86400);
             echo "\n" . $horaactual;
@@ -76,7 +78,34 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
                 echo "\n Se setea descuento: " . $this->descuento;
                 }
             }
-        } 
+        }
+        elseif($tarjeta instanceof FranquiciaCompletaJubilado){
+            echo "\n-Es FranquiciaCompletaJubilado";
+            echo "\n" . $tarjeta->boletos[0]->whenPago;
+            echo "\n" . $horaactual;
+            if($tarjeta->diaInRango($horaactual)){
+                $this->descuento = $tarjeta->descuentoFraccional;
+            }
+        }
+        else{
+            echo "Tarjeta normal";
+            
+            if( !$tarjeta->mismoMes($horaactual, $tarjeta->boletos[$tarjeta->primerBoletoMes]->verFecha()) ){
+                    $tarjeta->primerBoletoMes = 0;
+            }
+            
+            if ($tarjeta->primerBoletoMes < 29){
+                $tarjeta->descuentoFraccional = 1; // precio total
+            }
+            else if ($tarjeta->primerBoletoMes < 79){
+                $tarjeta->descuentoFraccional = 0.8; // 20% de descuento// viajes del 30 al 79  
+            }
+            else{
+                $tarjeta->descuentoFraccional = 0.75; // 25% de descuento // viajes a partir del 80
+            }
+        }  
+
+
 
 
         if($tarjeta->saldo - ($this->PRECIOBOLETO*$this->descuento) >= (-211.84))
@@ -102,6 +131,7 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
 
             $boleto = new Boleto($this->linea, $horaactual, $tarjeta->idTarjeta, $tarjeta->tipoDeTarjeta, $saldoPrevio, ($this->PRECIOBOLETO*$this->descuento), $tarjeta->saldo);
             $tarjeta->addBoleto($boleto);
+            $tarjeta->primerBoletoMes += 1;
             $this->descuento = 1;
             echo "\nsaldo post pago " . $tarjeta->saldo;
             echo "\ndescuento en el próximo pago " . $this->descuento;
@@ -119,9 +149,8 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
 
 }
 
-/*
 class ColectivoInterurbano extends Colectivo{
         public $PRECIOBOLETO = 184;
     }
-*/
+
 ?>

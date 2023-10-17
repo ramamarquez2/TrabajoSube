@@ -31,8 +31,24 @@ class BoletoTest extends TestCase{
         $this->assertEquals($tar->boletos[0]->verDesc(),"");
         
     }
-    public function testBoletoFranquicia(){
-        $tar = new FranquiciaCompleta(1, 120);
+    public function testBoletoFranquiciaBEG(){
+        $tar = new FranquiciaCompletaBEG(1, 120);
+        $cole = new Colectivo(103);
+        $cole->pagarCon($tar);
+        //los valores del nuevo boleto (creados al pagarCon) son correctos?
+        
+        $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
+        $this->assertEquals($tar->boletos[0]->verColectivo(),103);
+        $this->assertEquals($tar->boletos[0]->verId(),1);
+        $this->assertEquals($tar->boletos[0]->verTipoTarjeta(),"FranquiciaCompleta");
+        $this->assertEquals($tar->boletos[0]->verSaldoTarjeta(),120);
+        $this->assertEquals($tar->boletos[0]->verAbonado(),0);
+        $this->assertEquals($tar->boletos[0]->verSaldoRestante(),120);
+        $this->assertEquals($tar->boletos[0]->verDesc(),"");
+        
+    }
+    public function testBoletoFranquiciaJUB(){
+        $tar = new FranquiciaCompletaJubilado(1, 120);
         $cole = new Colectivo(103);
         $cole->pagarCon($tar);
         //los valores del nuevo boleto (creados al pagarCon) son correctos?

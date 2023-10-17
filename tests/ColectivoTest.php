@@ -11,9 +11,13 @@ class ColectivoTest extends TestCase{
         echo "\nSe creó colectivo\n";
         $this->assertEquals($cole->getLinea(), 103); //evalua si el colectivo creado es de la linea asignada en la creacion del objeto
         echo "\n Evalua si colectivo es 103 \n\n\n";
+
+        $coleInter = new ColectivoInterurbano(103);
+        echo "\nSe creó coleInter\n";
+        $this->assertEquals($coleInter->getLinea(), 103); //evalua si el colectivo creado es de la linea asignada en la creacion del objeto
+        echo "\n Evalua si colectivo es 103 \n\n\n";
     }
     
-
     public function testPagarcon(){
         
         $cole = new Colectivo(103);
@@ -42,15 +46,12 @@ class ColectivoTest extends TestCase{
         $this->assertEquals($tarjeta1->verSaldo(), 100); //resvisa si la deuda se descuenta del pago
     }
 
-    public function testFranquiciaMismoDia(){
+    public function testFranquiciaBegMismoDia(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
 
-        $tarjeta1 = new FranquiciaCompleta(1, -211.83); //teniendo saldo límite
+        $tarjeta1 = new FranquiciaCompletaBEG(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
-
-        $tarjeta1->verSaldo();
-        
 
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
@@ -61,24 +62,50 @@ class ColectivoTest extends TestCase{
         //paga dos boletos gratuitos
         echo "\n\nSe intenta pagar otro boleto\n"; 
         $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar, pues tiene saldo límite
+
+        
+        echo "\n\nCArga y Pasa 1 día\n";
+        $tarjeta1->cargarSaldo(1000);
+        $tarjeta1->fakeTimeAgregar(86401)
+
+        echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1)); // se reiniciaron boletos, se puede volver a pagar boleto 1
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 , se descontó 1 del pago
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //paga de nuevo
+        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
+        //pagó dos boletos gratuitos
+        echo "\n\nPasa 1 día\n"; 
+        $tarjeta1->fakeTimeAgregar(86401);
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //Vuelve a tener boletos
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
     }
-    public function testFranquiciaDistDia(){
+    public function testFranquiciaJubMismoDia(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
 
-        $tarjeta1 = new FranquiciaCompleta(1, -211.83); //teniendo saldo límite
+        $tarjeta1 = new FranquiciaCompletaJubilado(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
 
-        $tarjeta1->verSaldo();
-        
-
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
-        $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
-        $this->assertTrue($cole->pagarCon($tarjeta1));
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 2
         $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
         //paga dos boletos gratuitos
+        echo "\n\nSe intenta pagar otro boleto\n"; 
+        $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar, pues tiene saldo límite
+
+        
+        echo "\n\nCArga y Pasa 1 día\n";
+        $tarjeta1->cargarSaldo(1000);
+        $tarjeta1->fakeTimeAgregar(86401)
+
+        echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1)); // se reiniciaron boletos, se puede volver a pagar boleto 1
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 , se descontó 1 del pago
+        $this->assertTrue($cole->pagarCon($tarjeta1)); //paga de nuevo
+        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
+        //pagó dos boletos gratuitos
         echo "\n\nPasa 1 día\n"; 
         $tarjeta1->fakeTimeAgregar(86401);
         $this->assertTrue($cole->pagarCon($tarjeta1)); //Vuelve a tener boletos
