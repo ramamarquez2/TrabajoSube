@@ -57,7 +57,7 @@ class ColectivoTest extends TestCase{
         $this->assertEquals($tarjeta1->verSaldo(),500 );
 
         while($tarjeta1->primerBoletoMes<=30){
-        $boleto = new Boleto($cole->linea, $tarjeta1->$horaactual, 1, "Normal", 0, 0, 0);
+        $boleto = new Boleto($cole->linea, $tarjeta1->fakeTime(), 1, "Normal", 0, 0, 0);
         $tarjeta1->addBoleto($boleto);
         $tarjeta1->primerBoletoMes += 1;
         }

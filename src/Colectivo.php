@@ -3,8 +3,8 @@ namespace TrabajoSube;
 class Colectivo{
 
     public float $PRECIOBOLETO;
-    protected int $linea; //protected
-    protected float $descuento;
+    public int $linea; //protected
+    public float $descuento;
 
     public function __construct($linea){
         $this->linea = $linea;
