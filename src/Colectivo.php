@@ -130,7 +130,6 @@ class Colectivo{
 
     }
     
-    // tests functions
     public function getLinea(){
         return $this->linea;
     }
