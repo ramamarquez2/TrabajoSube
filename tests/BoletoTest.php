@@ -56,7 +56,7 @@ class BoletoTest extends TestCase{
         $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
         $this->assertEquals($tar->boletos[0]->verColectivo(),103);
         $this->assertEquals($tar->boletos[0]->verId(),1);
-        $this->assertEquals($tar->boletos[0]->verTipoTarjeta(),"Normal");
+        $this->assertEquals($tar->boletos[0]->verTipoTarjeta(),"MedioBoleto");
         $this->assertEquals($tar->boletos[0]->verSaldoTarjeta(),120);
         $this->assertEquals($tar->boletos[0]->verAbonado(),60);
         $this->assertEquals($tar->boletos[0]->verSaldoRestante(),60);
