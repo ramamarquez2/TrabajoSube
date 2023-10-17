@@ -19,7 +19,7 @@ class BoletoTest extends TestCase{
         $tar = new Tarjeta(1, 120);
         $cole = new Colectivo(103);
         $cole->pagarCon($tar);
-        //los valores del nuevo boleto (creados al pagarCon) son correctos?
+        
         
         $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
         $this->assertEquals($tar->boletos[0]->verColectivo(),103);
@@ -37,7 +37,7 @@ class BoletoTest extends TestCase{
         echo "\nPasan 7 horas";
         $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
-        //los valores del nuevo boleto (creados al pagarCon) son correctos?
+        
         
         $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
         $this->assertEquals($tar->boletos[0]->verColectivo(),103);
@@ -55,7 +55,7 @@ class BoletoTest extends TestCase{
         echo "\nPasan 7 horas";
         $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
-        //los valores del nuevo boleto (creados al pagarCon) son correctos?
+        
         
         $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
         $this->assertEquals($tar->boletos[0]->verColectivo(),103);
@@ -73,7 +73,7 @@ class BoletoTest extends TestCase{
         echo "\nPasan 7 horas";
         $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
-        //los valores del nuevo boleto (creados al pagarCon) son correctos?
+        
         
         $this->assertEquals($tar->boletos[0]->verFecha(),$tar->fakeTime());
         $this->assertEquals($tar->boletos[0]->verColectivo(),103);

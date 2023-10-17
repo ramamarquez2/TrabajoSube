@@ -60,10 +60,13 @@ public function fakeTime(){
 
 $test = new TiempoTest;
 
-$test->fakeTimeAgregar(25200);
+
 echo $test->fakeTime();
-echo "\n" . date('l',$test->fakeTime());
 echo "\n" . date('H:i:s',$test->fakeTime());
+echo "\n" . date("Y/m/d",$test->fakeTime());
+$test->fakeTimeAgregar(2592001);
+echo "\n" . date('H:i:s',$test->fakeTime());
+echo "\n" . date("Y/m/d",$test->fakeTime());
 if($test->diaInRango($test->fakeTime())){
     echo "T";
 }

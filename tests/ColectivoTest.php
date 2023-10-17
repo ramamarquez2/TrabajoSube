@@ -18,7 +18,7 @@ class ColectivoTest extends TestCase{
         echo "\n Evalua si colectivo es 103 \n\n\n";
     }
     
-    public function testPagarcon(){
+    public function testPagarconNormal(){
         
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
@@ -44,6 +44,72 @@ class ColectivoTest extends TestCase{
         $tarjeta1->verSaldo(); 
         $tarjeta1->cargarSaldo(200);
         $this->assertEquals($tarjeta1->verSaldo(), 100); //resvisa si la deuda se descuenta del pago
+    }
+    public function testPagarconNormalMasBeneficicios(){
+        
+        $cole = new Colectivo(103);
+        echo "\nSe creó colectivo\n";
+        $tarjeta1 = new Tarjeta(1,620);
+        echo "\nSe creó tarjeta 1\n"; 
+        $tarjeta1->verSaldo();
+
+        $this->assertTrue($cole->pagarCon($tarjeta1));  
+        $this->assertEquals($tarjeta1->verSaldo(),500 );
+
+        while($tarjeta1->primerBoletoMes<=30){
+        $boleto = new Boleto($cole->linea, $tarjeta1->$horaactual, 1, "Normal", 0, 0, 0);
+        $tarjeta1->addBoleto($boleto);
+        $tarjeta1->primerBoletoMes += 1;
+        }
+
+        echo "\n\nHay 20% de descuento\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //pago exitoso
+        $this->assertEquals($tarjeta1->verSaldo(),404 );
+        
+        echo "\n\nSe realiza segundo pago20%\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1)); 
+        $this->assertEquals($tarjeta1->verSaldo(), 308); 
+
+        while($tarjeta1->primerBoletoMes<=79){
+            $boleto = new Boleto($cole->linea, $tarjeta1->$horaactual, 1, "Normal", 0, 0, 0);
+            $tarjeta1->addBoleto($boleto);
+            $tarjeta1->primerBoletoMes += 1;
+        }
+
+        echo "\n\nHay 25% de descuento\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //pago exitoso
+        $this->assertEquals($tarjeta1->verSaldo(),218 );
+        
+        echo "\n\nSe realiza segundo pago20%\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1)); 
+        $this->assertEquals($tarjeta1->verSaldo(), 128); 
+    }
+
+    public function testPagarconNormalSeSaleDelMes(){
+        
+        $cole = new Colectivo(103);
+        echo "\nSe creó colectivo\n";
+        $tarjeta1 = new Tarjeta(1,620);
+        echo "\nSe creó tarjeta 1\n"; 
+        $tarjeta1->verSaldo();
+
+        $this->assertTrue($cole->pagarCon($tarjeta1));  
+        $this->assertEquals($tarjeta1->verSaldo(),500 );
+
+        while($tarjeta1->primerBoletoMes<=30){
+        $boleto = new Boleto($cole->linea, $tarjeta1->$horaactual, 1, "Normal", 0, 0, 0);
+        $tarjeta1->addBoleto($boleto);
+        $tarjeta1->primerBoletoMes += 1;
+        }
+        $tarjeta1->fakeTimeAgregar(2592000);//2.592.000 = 1 mes en segundos
+
+        $this->assertTrue($cole->pagarCon($tarjeta1));  //se evalua el primerBoletoMes con la fecha del pago de hoy, son de distintos memes por lo que no hay descuneto
+        $this->assertEquals($tarjeta1->verSaldo(),380 );
+    
+        echo "\n\nSe realiza segundo pago20%\n"; 
+        $this->assertTrue($cole->pagarCon($tarjeta1)); 
+        $this->assertEquals($tarjeta1->verSaldo(), 260); 
+
     }
 
     public function testFranquiciaBegMismoDia(){
@@ -195,7 +261,7 @@ class ColectivoTest extends TestCase{
 
     public function testColectivoInterurbano(){
         $tarjeta1 = new Tarjeta(1,184);
-        $coleInterurbano = new ColectivoInterurbano();
+        $coleInterurbano = new ColectivoInterurbano(103);
         $coleInterurbano->pagarCon($tarjeta1);
         $this->assertEquals($tarjeta1->verSaldo(),0);
 
