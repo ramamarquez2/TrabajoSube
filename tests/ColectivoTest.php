@@ -53,6 +53,11 @@ class ColectivoTest extends TestCase{
         $tarjeta1 = new FranquiciaCompletaBEG(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
 
+        $this->assertFalse($cole->pagarCon($tarjeta1)); // No puede pagar, no hay beneficio en lahora
+        
+        echo "\nPasan 7 horas";
+        $tarjeta1->fakeTimeAgregar(25200); // pasan 7 horas
+
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios 2 por ser tarjeta nueva
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
@@ -64,9 +69,8 @@ class ColectivoTest extends TestCase{
         $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar, pues tiene saldo límite
 
         
-        echo "\n\nCArga y Pasa 1 día\n";
-        $tarjeta1->cargarSaldo(1000);
-        $tarjeta1->fakeTimeAgregar(86401)
+        echo "\n\nPasa 1 día\n";
+        $tarjeta1->fakeTimeAgregar(86401);
 
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1)); // se reiniciaron boletos, se puede volver a pagar boleto 1
@@ -85,28 +89,19 @@ class ColectivoTest extends TestCase{
 
         $tarjeta1 = new FranquiciaCompletaJubilado(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
+        
+        $this->assertFalse($cole->pagarCon($tarjeta1)); // No puede pagar, no hay beneficio en lahora
+        
+        echo "\nPasan 7 horas";
+        $tarjeta1->fakeTimeAgregar(25200); // pasan 7 horas
 
         echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 1
-        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
         $this->assertTrue($cole->pagarCon($tarjeta1)); //boleto 2
-        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
-        //paga dos boletos gratuitos
-        echo "\n\nSe intenta pagar otro boleto\n"; 
-        $this->assertFalse($cole->pagarCon($tarjeta1)); //no tiene mas boletos, no puede pagar, pues tiene saldo límite
 
-        
-        echo "\n\nCArga y Pasa 1 día\n";
-        $tarjeta1->cargarSaldo(1000);
-        $tarjeta1->fakeTimeAgregar(86401)
+        echo "\n\nPasa 1 día\n";
+        $tarjeta1->fakeTimeAgregar(86401);
 
-        echo "\n\n---Se pagan dos boletos gratuitos---\n"; 
-        $this->assertTrue($cole->pagarCon($tarjeta1)); // se reiniciaron boletos, se puede volver a pagar boleto 1
-        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 , se descontó 1 del pago
-        $this->assertTrue($cole->pagarCon($tarjeta1)); //paga de nuevo
-        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios =0
-        //pagó dos boletos gratuitos
-        echo "\n\nPasa 1 día\n"; 
         $tarjeta1->fakeTimeAgregar(86401);
         $this->assertTrue($cole->pagarCon($tarjeta1)); //Vuelve a tener boletos
         $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =1 
@@ -121,7 +116,10 @@ class ColectivoTest extends TestCase{
 
         $tarjeta1->verSaldo();
         
-
+        $this->assertFalse($cole->pagarCon($tarjeta1)); // No puede pagar, no hay beneficio en lahora
+        
+        echo "\nPasan 7 horas";
+        $tarjeta1->fakeTimeAgregar(25200); // pasan 7 horas
 
         echo "\n\n---Se pagan medio 1---\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1

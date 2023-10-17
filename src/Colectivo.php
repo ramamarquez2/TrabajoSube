@@ -88,8 +88,7 @@ Escribir un test que verifique que los viajes posteriores al segundo se cobran c
             }
         }
         else{
-            echo "Tarjeta normal";
-            
+          
             if( !$tarjeta->mismoMes($horaactual, $tarjeta->boletos[$tarjeta->primerBoletoMes]->verFecha()) ){
                     $tarjeta->primerBoletoMes = 0;
             }
