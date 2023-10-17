@@ -73,16 +73,23 @@ class Colectivo{
         else{
             if( !$tarjeta->mismoMes($horaactual, $tarjeta->boletos[$tarjeta->primerBoletoMes]->verFecha()) ){
                     $tarjeta->primerBoletoMes = 0;
+                    echo "\n Nuevo mes " . $tarjeta->primerBoletoMes;  
             }
             
             if ($tarjeta->primerBoletoMes < 29){
+                echo "\n Es menor a 29 " . $tarjeta->primerBoletoMes;  
                 $tarjeta->descuentoFraccional = 1; // precio total
+                echo "\n Se setea descuento: " . $this->descuento;
             }
             else if ($tarjeta->primerBoletoMes < 79){
+                echo "\n Es menor a 79 " . $tarjeta->primerBoletoMes;  
                 $tarjeta->descuentoFraccional = 0.8; // 20% de descuento// viajes del 30 al 79  
+                echo "\n Se setea descuento: " . $this->descuento;
             }
             else{
+                echo "\n Mayor a 79 " . $tarjeta->primerBoletoMes;  
                 $tarjeta->descuentoFraccional = 0.75; // 25% de descuento // viajes a partir del 80
+                echo "\n Se setea descuento: " . $this->descuento;
             }
         }  
 
