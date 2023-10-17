@@ -17,7 +17,7 @@ class Tarjeta{
         array_unshift($this->boletos, $bol);
     }
     
-    protected function mismoMes($date1, $date2){
+    public function mismoMes($date1, $date2){
         return date("F Y", $date1) == date("F Y", $date2);
     }
     public function diaInRango($tiempoAct){
