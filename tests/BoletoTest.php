@@ -34,6 +34,8 @@ class BoletoTest extends TestCase{
     public function testBoletoFranquiciaBEG(){
         $tar = new FranquiciaCompletaBEG(1, 120);
         $cole = new Colectivo(103);
+        echo "\nPasan 7 horas";
+        $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
         //los valores del nuevo boleto (creados al pagarCon) son correctos?
         
@@ -50,6 +52,8 @@ class BoletoTest extends TestCase{
     public function testBoletoFranquiciaJUB(){
         $tar = new FranquiciaCompletaJubilado(1, 120);
         $cole = new Colectivo(103);
+        echo "\nPasan 7 horas";
+        $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
         //los valores del nuevo boleto (creados al pagarCon) son correctos?
         
@@ -66,6 +70,8 @@ class BoletoTest extends TestCase{
     public function testBoletoMedio(){
         $tar = new MedioBoleto(1, 120);
         $cole = new Colectivo(103);
+        echo "\nPasan 7 horas";
+        $tar->fakeTimeAgregar(25200); // pasan 7 horas
         $cole->pagarCon($tar);
         //los valores del nuevo boleto (creados al pagarCon) son correctos?
         
