@@ -83,7 +83,7 @@ class Tarjeta{
         return $this->exceso;
     }
 
-
+/*
     public function mismoDia($date1,$date2){
         return date("l jS \of F Y", $date1) == date("l jS \of F Y", $date2);
     }
@@ -97,7 +97,7 @@ class Tarjeta{
         return (($diaAct != "Saturday" && $diaAct != "Sunday") && ($tiempoAct >= '06:00:00' && $tiempoAct <= '22:00:00'));
     }
     
-    
+    */
     public $fakeTimeAgregado = 0;
     public $usarTime = false;
     public function fakeTimeAgregar($agregado){ //suma tiempo pasado al tiempo falso
