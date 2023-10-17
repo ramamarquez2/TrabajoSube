@@ -98,32 +98,37 @@ class ColectivoTest extends TestCase{
         echo "\n\n---Se pagan medio 1---\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 1
         $this->assertEquals($tarjeta1->verSaldo(), (240));//descontó mitad
-        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios =3 
+        $this->assertEquals($tarjeta1->verBeneficios(),3); //beneficios =3 
 
         echo "\n\nSe intenta pagar instantáneamente medio 2\n"; 
         $this->assertTrue($cole->pagarCon($tarjeta1));  //intento de medio 2, se puede pagar pero sin descuento
         $this->assertEquals($tarjeta1->verSaldo(), (120)); // saldo - 120
+        $this->assertEquals($tarjeta1->verBeneficios(),3); //beneficios = 3 
 
         echo "\n\nSe paga medio 2 con espera\n"; 
         $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 2 , 
         $this->assertEquals($tarjeta1->verSaldo(), (60)); // descuenta mitad
+        $this->assertEquals($tarjeta1->verBeneficios(),2); //beneficios = 2
 
         
         echo "\n\nSe pagan medio 3 con espera\n";
         $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 3
         $this->assertEquals($tarjeta1->verSaldo(), (0));//descontó mitad
+        $this->assertEquals($tarjeta1->verBeneficios(),1); //beneficios = 1
 
         echo "\n\nSe pagan medio 4 con espera\n";
         $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //medio 4
         $this->assertEquals($tarjeta1->verSaldo(), (-60));//descontó mitad
+        $this->assertEquals($tarjeta1->verBeneficios(),0); //beneficios = 0
 
         echo "\n\nNo hay beneficio, pago vuelve a ser normal\n";
         $tarjeta1->fakeTimeAgregar(301);
         $this->assertTrue($cole->pagarCon($tarjeta1));  //No hay mas beneficio, pago vuelve a normal
         $this->assertEquals($tarjeta1->verSaldo(), (-180));//pago normal
+        $this->assertEquals($tarjeta1->verBeneficios(), 0); //beneficios = 0 
 
     }
 
