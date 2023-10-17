@@ -1,34 +1,25 @@
 <?php
 namespace TrabajoSube;
 class Tarjeta{
-    public string $propietario;
+    public int $idTarjeta;
     public float $saldo;
     public float $deuda;
-    public $tipoTarjeta;
+    public float $exceso;
+
+    public $tipoDeTarjeta;
     public float $precioBoleto;
     public array $ifSaldo = [150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 2000, 2500, 3000, 3500, 4000];
     public array $boletos = []; 
 
-    public function __construct($name, $s=0){
-        $this->propietario = $name;
+    public function __construct($id, $s=0){
+        $this->idTarjeta = $id;
         $this->saldo = $s;
         $this->deuda = 0;
-/*      
-        if($s <= 6600 || $s >= (-211.84)){
-            $this->saldo = $s;
-        }
-        else {
-            $this->saldo = 0;
-        }
+        $this->exceso= 0;
+        $this->tipoDeTarjeta = 'Normal';
 
-        if($s>=0){
-            $this->deuda = 0;
-        }
-        else{
-            $this->deuda = $this->saldo * (-1);
-        }*/
     }
-
+    
 
     public function cargarSaldo($numSaldo){
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
@@ -48,9 +39,20 @@ class Tarjeta{
             }
         }
         else{
-            echo "\nEl numero es incorrecto.";
+            $this->exceso = ($numSaldo - 6600);
+            $this->saldo = 6600;
         }
 
+        /*
+        Saldo de la tarjeta.
+        Una tarjeta SUBE no puede almacenar más de 6600 pesos.
+        Por lo tanto cuando se realiza una carga que haga que se supere este
+        límite, se deberá acreditar la carga en la tarjeta hasta alcanzar el
+        monto máximo permitido y el monto restante se deberá dejar pendiente de
+        acreditación. Luego ese saldo pendiente se acredita a medida que se usa la tarjeta.
+
+        Modificar la función para cargar la tarjeta añadiendo esta funcionalidad.
+        */
     }
 
     public function addBoleto(Boleto $bol){
@@ -64,6 +66,10 @@ class Tarjeta{
         echo "\nTu deuda actual es " . $this->deuda. " .\n";
         return $this->deuda;
     }
+    public function verExcedente() {
+        echo "\nTu excedente actual es " . $this->exceso. " .\n";
+        return $this->exceso;
+    }
 }
 
 class FranquiciaCompleta extends Tarjeta {
@@ -74,7 +80,7 @@ class FranquiciaCompleta extends Tarjeta {
         parent::__construct($name, $s);
         $this->beneficiosRestantes = 2;
         $this->descuentoFraccional = 0;
-        $this->tipoTarjeta = 'FranquiciaCompleta';
+        $this->tipoDeTarjeta = 'FranquiciaCompleta';
     }
 }
 class MedioBoleto extends Tarjeta {
@@ -85,7 +91,7 @@ class MedioBoleto extends Tarjeta {
         parent::__construct($name, $s);
         $this->beneficiosRestantes = 4;
         $this->descuentoFraccional = 0.5;
-        $this->tipoTarjeta = 'MedioBoleto';
+        $this->tipoDeTarjeta = 'MedioBoleto';
     }
 }
 

@@ -18,8 +18,8 @@ class ColectivoTest extends TestCase{
         
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
-        $tarjeta1 = new Tarjeta("Owner",140);
-        echo "\nSe creó tarjeta Owner\n"; 
+        $tarjeta1 = new Tarjeta(1,140);
+        echo "\nSe creó tarjeta 1\n"; 
         $tarjeta1->verSaldo();
 
         echo "\n\nSe realiza primer pago\n"; 
@@ -52,7 +52,7 @@ con medio boleto es siempre la mitad del normal.
     public function testFranquicia(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
-        $tarjeta1 = new FranquiciaCompleta("DebtorOwner", -211.83); //teniendo saldo límite
+        $tarjeta1 = new FranquiciaCompleta(1, -211.83); //teniendo saldo límite
         echo "\nSe creó tarjeta\n";
         $tarjeta1->verSaldo();
 
@@ -68,7 +68,7 @@ con medio boleto es siempre la mitad del normal.
     public function testMedioBoleto(){
         $cole = new Colectivo(103);
         echo "\nSe creó colectivo\n";
-        $tarjeta1 = new MedioBoleto("Owner", 240);
+        $tarjeta1 = new MedioBoleto(1, 240);
         echo "\nSe creó tarjeta\n";
         $tarjeta1->verSaldo();
 
@@ -93,5 +93,34 @@ con medio boleto es siempre la mitad del normal.
         $this->assertTrue($cole->pagarCon($tarjeta1));  //No hay mas beneficio, pago vuelve a normal
         $this->assertEquals($tarjeta1->verSaldo(), (-120));//pago normal
 
+    }
+
+    public function testSaldoYExceso(){
+        
+        $cole = new Colectivo(115);
+        echo "\nSe creó colectivo\n";
+        $badTarjeta = new Tarjeta(1, 6600); //tarjeta que excede el saldo maximo
+        echo "\nSe creó tarjeta\n";
+        $badTarjeta->verSaldo();
+        $this->assertEquals($badTarjeta->verSaldo(), 6600);
+        
+        $badTarjeta->cargarSaldo(1000); // 6600 de saldo, 400 de exceso
+        $this->assertEquals($badTarjeta->verExcedente(), 400); // exceso
+
+        $this->assertTrue($cole->pagarCon($badTarjeta));  //pago exitoso
+        $this->assertEquals($badTarjeta->verSaldo(), 6600); //el saldo esta acotado a 6600, el exceso cubrió el pago
+        $this->assertEquals($badTarjeta->verExcedente(), 280); // exceso cubrio el pago
+
+
+        $badTarjeta2 = new Tarjeta(1, 6480); //tarjeta que excede el saldo maximo
+        echo "\nSe creó tarjeta\n";
+        $badTarjeta2->verSaldo();
+        $badTarjeta2->cargarSaldo(150); // 6600 de saldo, 30 de exceso
+        $this->assertEquals($badTarjeta2->verExcedente(), 30); // exceso 
+
+        $this->assertTrue($cole->pagarCon($badTarjeta2));  //pago exitoso
+        $this->assertEquals($badTarjeta2->verSaldo(), 6510); // exceso cubrió parte del pago, el resto se descontó de saldo
+        $this->assertEquals($badTarjeta2->verExcedente(), 0); // exceso se vacio cubriendo el pago
+         
     }
 }

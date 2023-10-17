@@ -9,23 +9,17 @@ class TarjetaTest extends TestCase{
     public function testSaldo(){
         
         echo "\nSe crean tarjetas\n"; 
-        $tarjeta1 = new Tarjeta("Owner"); 
+        $tarjeta1 = new Tarjeta(1); 
         $tarjeta1->verSaldo();
 
-        $deudaTarj = new Tarjeta("StrangeOwner", -160); //tarjeta cargada con saldo negativo
+        $deudaTarj = new Tarjeta(2, -160); //tarjeta cargada con saldo negativo
         $deudaTarj->verSaldo();
 
-        $badTarjeta1 = new Tarjeta("PlentyOwner", 6600); //tarjeta que excede el saldo maximo
-        $badTarjeta1->verSaldo();
-
-        $badTarjeta2 = new Tarjeta("BadOwner", -212); //tarjeta que excede el saldo minimo
-        $badTarjeta2->verSaldo();
+       
 
 
         //Creacion de tarjetas:
         echo "\n\n Se revisan los valores\n"; 
-        $this->assertEquals($badTarjeta1->verSaldo(), 6600); //
-        $this->assertEquals($badTarjeta2->verSaldo(), -212); //
         $this->assertEquals($tarjeta1->verSaldo(), 0); //tarjeta con saldo cero devuelve su mismo saldo, y al ser creada sin ingresar saldo, su defecto es 0
         $this->assertEquals($tarjeta1->verDeuda(), 0); //tarjeta con saldo positivo devuelve deuda 0
         $this->assertEquals($deudaTarj->verDeuda(), 0); //tarjeta con saldo negativo su deuda es 0 pues todavia no se ha hecho operaciones.
@@ -52,4 +46,26 @@ class TarjetaTest extends TestCase{
         $this->assertEquals($deudaTarj->verDeuda(), 0); //devuelve deuda 0
 
     }
+    /*
+    $badTarjeta2 = new Tarjeta("BadOwner", -212); //tarjeta que excede el saldo minimo
+    $badTarjeta2->verSaldo();  
+     */
+    public function testSaldoYExceso(){
+        
+        $badTarjeta = new Tarjeta(1, 6000); //tarjeta llena
+        $badTarjeta->verSaldo();
+
+        $badTarjeta->cargarSaldo(1000); //carga que excede limite
+        $this->assertEquals($badTarjeta->verSaldo(), 6600); //el saldo esta acotado a 6600
+        $this->assertEquals($badTarjeta->verExcedente(), 400);
+         
+    }
+    /*
+        Escribir un test que valide que si a una tarjeta se le carga un monto
+        que supere el máximo permitido, se acredite el saldo hasta alcanzar el máximo(6600)
+        y que el excedente quede almacenado y pendiente de acreditación.
+        
+        Escribir un test que valide que luego de realizar un viaje, verifique si hay
+        saldo pendiente de acreditación y recargue la tarjeta hasta llegar al máximo nuevamente.
+    */
 }
