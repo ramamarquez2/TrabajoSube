@@ -35,8 +35,9 @@ class Colectivo{
             
             if($tarjeta->exceso > 0){
                 $tarjeta->saldo += $tarjeta->exceso;
+                $tarjeta->exceso = 0;
                 if($tarjeta->saldo > 6600){
-                    $tarjeta->exceso += ($tarjeta->saldo - 6600);
+                    $tarjeta->exceso = ($tarjeta->saldo - 6600);
                     $tarjeta->saldo = 6600;
                 }
             }

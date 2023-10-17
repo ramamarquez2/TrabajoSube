@@ -99,20 +99,21 @@ con medio boleto es siempre la mitad del normal.
         
         $cole = new Colectivo(115);
         echo "\nSe creó colectivo\n";
-        $badTarjeta = new Tarjeta(1, 6600); //tarjeta que excede el saldo maximo
+        $badTarjeta = new Tarjeta(1, 6600); //tarjeta con maximo
         echo "\nSe creó tarjeta\n";
         $badTarjeta->verSaldo();
         $this->assertEquals($badTarjeta->verSaldo(), 6600);
-        
-        $badTarjeta->cargarSaldo(1000); // 6600 de saldo, 400 de exceso
-        $this->assertEquals($badTarjeta->verExcedente(), 400); // exceso
 
-        $this->assertTrue($cole->pagarCon($badTarjeta));  //pago exitoso
+
+        $badTarjeta->cargarSaldo(1000); // 6600 de saldo, 1000 de exceso
+        $this->assertEquals($badTarjeta->verExcedente(), 1000); // exceso
+
+        $this->assertTrue($cole->pagarCon($badTarjeta));  //pago exitoso, descuenta 120 a exceso 100 -120 = 880
         $this->assertEquals($badTarjeta->verSaldo(), 6600); //el saldo esta acotado a 6600, el exceso cubrió el pago
-        $this->assertEquals($badTarjeta->verExcedente(), 280); // exceso cubrio el pago
+        $this->assertEquals($badTarjeta->verExcedente(), 880); // exceso cubrio el pago
 
 
-        $badTarjeta2 = new Tarjeta(1, 6480); //tarjeta que excede el saldo maximo
+        $badTarjeta2 = new Tarjeta(1, 6480); //tarjeta cerca del saldo maximo
         echo "\nSe creó tarjeta\n";
         $badTarjeta2->verSaldo();
         $badTarjeta2->cargarSaldo(150); // 6600 de saldo, 30 de exceso

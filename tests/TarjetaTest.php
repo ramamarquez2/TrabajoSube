@@ -15,8 +15,6 @@ class TarjetaTest extends TestCase{
         $deudaTarj = new Tarjeta(2, -160); //tarjeta cargada con saldo negativo
         $deudaTarj->verSaldo();
 
-       
-
 
         //Creacion de tarjetas:
         echo "\n\n Se revisan los valores\n"; 

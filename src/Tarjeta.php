@@ -22,6 +22,7 @@ class Tarjeta{
     
 
     public function cargarSaldo($numSaldo){
+        
         if(in_array($numSaldo, $this->ifSaldo) && ($numSaldo + $this->saldo) <= 6600){
             
             echo "\nUsted le cargo " . $numSaldo . ".\n";
@@ -39,7 +40,7 @@ class Tarjeta{
             }
         }
         else{
-            $this->exceso = ($numSaldo - 6600);
+            $this->exceso = (($this->saldo + $numSaldo) - 6600);
             $this->saldo = 6600;
         }
 
