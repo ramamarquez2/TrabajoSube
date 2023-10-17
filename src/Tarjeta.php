@@ -5,6 +5,7 @@ class Tarjeta{
     public float $saldo;
     public float $deuda;
     public float $exceso;
+    
 
     public $tipoDeTarjeta;
     public float $precioBoleto;
@@ -15,7 +16,7 @@ class Tarjeta{
         $this->idTarjeta = $id;
         $this->saldo = $s;
         $this->deuda = 0;
-        $this->exceso= 0;
+        $this->exceso = 0;
         $this->tipoDeTarjeta = 'Normal';
 
     }
@@ -83,8 +84,8 @@ class FranquiciaCompleta extends Tarjeta {
     public int $beneficiosRestantes;
     public float $descuentoFraccional;
 
-    public function __construct($name, $s=0){
-        parent::__construct($name, $s);
+    public function __construct($id, $s=0){
+        parent::__construct($id, $s);
         $this->beneficiosRestantes = 2;
         $this->descuentoFraccional = 0;
         $this->tipoDeTarjeta = 'FranquiciaCompleta';
@@ -94,8 +95,8 @@ class MedioBoleto extends Tarjeta {
     public int $beneficiosRestantes;
     public float $descuentoFraccional;
 
-    public function __construct($name, $s=0){
-        parent::__construct($name, $s);
+    public function __construct($id, $s=0){
+        parent::__construct($id, $s);
         $this->beneficiosRestantes = 4;
         $this->descuentoFraccional = 0.5;
         $this->tipoDeTarjeta = 'MedioBoleto';

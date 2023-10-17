@@ -11,7 +11,7 @@ class Boleto{
     private float $saldoTarjeta;
     private float $totalAbonado;
     private float $saldoRestante;
-
+    public $whenPago;
     private string $descripcion;
 
 
@@ -35,6 +35,7 @@ class Boleto{
         $this->totalAbonado = $abonado;
         $this->saldoRestante = $restante;
         $this->descripcion = $desc;
+        $this->whenPago = $fechaBoleto;
     }
 
     public function verColectivo(){
